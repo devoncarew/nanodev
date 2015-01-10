@@ -7,22 +7,23 @@
     <style>
       :host {
         display: inline-block;
-        height: 23px;
+        height: 24px;
         width: 140px;
         vertical-align: middle;
         line-height: 24px;
         color: #999;
         transition: 100ms;
         cursor: pointer;
-        transition: 100ms;
+        margin-right: 6px;
       }
 
       :host([active]) {
-        border-bottom: 2px solid #4C4C4C;
+        /*border-bottom: 2px solid #6CA6CD;*/
       }
 
       :host([active]) .name {
         color: #000;
+        border-bottom: 2px solid #6CA6CD;
       }
 
       :host(:hover) .name {
@@ -32,7 +33,7 @@
       #dirtyIndicator {
         opacity: 0;
         font-size: 22px;
-        /*margin-left: 3px;*/
+        transition: 100ms;
         margin-right: 3px;
       }
 
@@ -51,21 +52,18 @@
       }
 
       cde-close-button {
-        /*margin-left: 4px;*/
-        margin-right: 4px;
-        /*opacity: 0;*/
         display: none;
-        transition: opacity 200ms;
+        transition: opacity 100ms;
       }
 
       :host(:hover) cde-close-button {
         display: inline-block;
-        /*opacity: 1;*/
       }
     </style>
 
     <div id="dirtyIndicator">&bull;</div>
-    <div class="name" flex title="{{tooltip}}">{{name}}</div>
+    <div class="name" title="{{tooltip}}">{{name}}</div>
+    <div flex></div>
     <cde-close-button on-click="{{handleClose}}"></cde-close-button>
   </template>
 
