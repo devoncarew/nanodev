@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>Light Mock</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- script src="packages/picodev/bower_components/platform/platform.js"></script -->
+
+  <link rel="import" href="packages/picodev/bower_components/core-elements/core-elements.html">
+  <link rel="import" href="packages/picodev/bower_components/paper-elements/paper-elements.html">
+  <link rel="import" href="packages/picodev/bower_components/core-icons/hardware-icons.html">
+  <link rel="import" href="packages/picodev/bower_components/font-roboto/roboto.html">
+  <link rel="import" href="packages/picodev/cde/cde-elements.html">
+
+  <link rel="import" href="packages/picodev/components/editor-area.html">
+  <link rel="import" href="packages/picodev/components/files-view.html">
+  <link rel="import" href="packages/picodev/components/cde-search.html">
+
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    cde-toolbar {
+      margin: 10px 14px 4px 14px;
+      padding: 0 6px;
+      color: #666;
+      font-size: 14px;
+      line-height: 24px;
+    }
+
+    cde-toolbar cde-fab {
+      top: -1px;
+    }
+
+    cde-toolbar cde-search {
+      margin: 0 8px 0 10px;
+    }
+
+    cde-icon-button + cde-icon-button {
+      margin-left: 0.5em;
+    }
+
+    #mainLayout {
+      margin: 0 14px 14px 14px;
+    }
+
+    .title {
+      margin-left: 0.5em;
+    }
+  </style>
+</head>
+
+<body unresolved fullbleed layout vertical>
+  <cde-toolbar>
+    <cde-icon-button icon="menu"></cde-icon-button>
+
+    <span class="title">PicoDev workspace</span>
+
+    <!-- cde-fab icon="add" raised="true"></cde-fab -->
+
+    <cde-search placeholder="Search" flex></cde-search>
+
+    <cde-icon-button icon="hardware:phone-android"></cde-icon-button>
+    <cde-icon-button icon="settings"></cde-icon-button>
+    <cde-icon-button icon="more-vert"></cde-icon-button>
+    <!-- paper-menu-button icon="more-vert" halign="right">
+      <paper-item>New Project...</paper-item>
+      <paper-item>Open Folder...</paper-item>
+      <paper-item>Git Clone...</paper-item>
+      <hr>
+      <paper-item>About CDE</paper-item>
+    </paper-menu-button -->
+  </cde-toolbar>
+
+  <div flex horizontal layout id="mainLayout">
+    <files-view></files-view>
+    <cde-splitter direction="left"></cde-splitter>
+    <div flex layout vertical>
+      <editor-area flex></editor-area>
+      <cde-splitter direction="down"></cde-splitter>
+      <cde-view-stack maintitle="Title"></cde-view-stack>
+    </div>
+  </div>
+
+  <!-- div class="status">Some status here.</div -->
+
+  <!-- section>
+    <template id="toastGroup" is="auto-binding">
+      <paper-button raised right on-click="{{showToast}}">
+        Show Toast
+      </paper-button>
+      <paper-toast id="toast" text="Sample toast here."></paper-toast>
+    </template>
+  </section -->
+
+  <script src="main.dart" type="application/dart"></script>
+  <script src="packages/browser/dart.js"></script>
+  <script src="packages/codemirror/codemirror.js"></script>
+</body>
+</html>

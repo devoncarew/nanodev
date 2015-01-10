@@ -1,0 +1,92 @@
+<link rel="import" href="cde-elements.html">
+
+<polymer-element name="cde-file-item" layout horizontal
+    attributes="name error warning dirty open container meta selected">
+  <template>
+    <link link rel="stylesheet" href="cde.css">
+    <style>
+      :host {
+        height: 24px;
+        line-height: 24px;
+        cursor: pointer;
+        transition: 50ms;
+        margin-bottom: 1px;
+        color: #777;
+      }
+
+      :host([selected]) {
+        color: #fff;
+        background: #6CA6CD; /* d7d4f0 2980b9 #81adc3 6CA6CD 9BC4E2 */
+        border-radius: 2px;
+      }
+
+      :host cde-icon {
+        visibility: hidden;
+      }
+
+      :host([container]) cde-icon {
+        visibility: visible;
+      }
+
+      :host cde-icon {
+        transition: 100ms;
+        transform: rotate(-90deg);
+      }
+
+      :host([open]) cde-icon {
+        transform: rotate(0deg);
+      }
+
+      [name],
+      .meta {
+        overflow: hidden;
+        white-space: nowrap;
+        /*text-overflow: ellipsis;*/
+      }
+
+      .meta {
+        color: #bbb;
+        margin-left: 0.5em;
+      }
+
+      :host([selected]) .meta {
+        color: #ccc;
+      }
+
+      :host cde-icon-button {
+        opacity: 0;
+        transition: 100ms;
+      }
+
+      :host(:hover) cde-icon-button {
+        opacity: 1;
+      }
+    </style>
+
+    <cde-icon icon="arrow-drop-down" fett on-click="{{handleExpand}}"></cde-icon>
+    <span name>{{name}}</span>
+    <span class="meta" flex>{{meta}} </span>
+    <cde-icon-button icon="more-vert" on-click="{{handleMenu}}"></cde-icon-button>
+  </template>
+
+  <script>
+    Polymer('cde-file-item', {
+      selected: false,
+
+      handleExpand: function(e) {
+        e.stopPropagation();
+        var target = e.toElement.parentNode.host;
+        if (target.getAttribute('open') ==  null) {
+          target.setAttribute('open', true);
+        } else {
+          target.removeAttribute('open');
+        }
+      },
+
+      handleMenu: function(e) {
+        e.stopPropagation();
+        // TODO:
+      }
+    });
+  </script>
+</polymer-element>

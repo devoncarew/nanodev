@@ -1,0 +1,27 @@
+<link rel="import" href="cde-elements.html">
+
+<polymer-element name="cde-fab" attributes="icon raised">
+  <template>
+    <style>
+      :host {
+        box-sizing: border-box;
+        background: #d23f31;
+        color: #fff;
+        border-radius: 50%;
+        height: 24px;
+        width: 24px;
+      }
+
+      cde-icon-button /deep/ core-icon {
+        /*top: -1px;*/
+      }
+    </style>
+
+    <template if="{{raised}}">
+      <paper-shadow id="shadow" z="1" animated></paper-shadow>
+    </template>
+    <cde-icon-button icon="{{icon}}"></core-icon-button>
+  </template>
+
+  <script>Polymer({});</script>
+</polymer-element>

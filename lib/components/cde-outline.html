@@ -1,0 +1,151 @@
+
+<link rel="import" href="../cde/cde-elements.html">
+
+<polymer-element name="cde-outline" attributes="summary line column"
+    vertical layout>
+<template>
+  <link link rel="stylesheet" href="../cde/cde.css">
+  <style>
+    :host {
+      display: inline-block;
+      min-width: 100px;
+      width: 200px;
+      border-left: 1px solid #ddd;
+      padding-left: 0.5em;
+      color: #777;
+    }
+
+    cde-toolbar {
+      color: #777;
+    }
+
+    .header {
+      padding-bottom: 0.5em;
+      margin-bottom: 0.5em;
+      border-bottom: 1px solid #f7f7f7;
+    }
+
+    .footer {
+      line-height: 14px;
+      margin-top: 0.5em;
+      padding-top: 0.5em;
+      border-top: 1px solid #f7f7f7;
+      text-align: center;
+    }
+
+    .content {
+      overflow-y: auto;
+      -webkit-user-select: text;
+    }
+
+    .errors {
+      margin-bottom: 1em;
+    }
+
+    .errors [error] {
+      display: inline-block;
+      margin-left: 9px;
+    }
+
+    .errors [error]::before {
+      content: '\2022  ';
+      margin-left: -9px;
+      color: red;
+    }
+
+    .errors [warning] {
+      display: inline-block;
+      margin-left: 9px;
+    }
+
+    .errors [warning]::before {
+      content: '\2022  ';
+      margin-left: -9px;
+    }
+
+    ul {
+      padding-left: 0;
+      list-style-type: none;
+    }
+
+    ul > ul {
+      margin-left: 9px;
+    }
+
+    .outline li {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .outline {
+      margin-bottom: 0;
+    }
+
+    .divider {
+      color: #aaa;
+    }
+
+    a {
+      cursor: pointer;
+    }
+
+    .type {
+      color: #aaa;
+    }
+  </style>
+
+  <cde-toolbar class="header">
+    <div flex>{{summary}}</div>
+    <cde-icon-button icon="editor:format-indent-increase"></cde-icon-button>
+  </cde-toolbar>
+
+  <div class="content" flex>
+    <div class="errors">
+      <div error><a>No method foo() defined on the class FooBar.</a></div>
+      <div warning><a>Warning, reference foo not found.</a></div>
+    </div>
+
+    <ul class="outline">
+      <li><a>FooBar</a></li>
+      <ul>
+        <li><a>oneTwoThreeFour</a>() <span class="type">int</span></li>
+        <li><a>two</a>() <span class="type">String</span></li>
+        <li><a>three()</a></li>
+      </ul>
+      <li><a>FooBar</a></li>
+      <ul>
+        <li><a>oneTwoThreeFour</a>() <span class="type">int</span></li>
+        <li><a>two</a>() <span class="type">String</span></li>
+        <li><a>three()</a></li>
+      </ul>
+      <li><a>FooBar</a></li>
+      <ul>
+        <li><a>oneTwoThreeFour</a>() <span class="type">int</span></li>
+        <li><a>two</a>() <span class="type">String</span></li>
+        <li><a>three()</a></li>
+      </ul>
+      <li><a>FooBar</a></li>
+      <ul>
+        <li><a>oneTwoThreeFour</a>() <span class="type">int</span></li>
+        <li><a>two</a>() <span class="type">String</span></li>
+        <li><a>three()</a></li>
+      </ul>
+    </ul>
+  </div>
+
+  <div class="footer">
+    {{line}}
+    <span class="divider">&bull;</span>
+    {{column}}
+  </div>
+</template>
+
+<script>
+Polymer('cde-outline', {
+  summary: '',
+  line: '',
+  column: '',
+});
+</script>
+</polymer-element>

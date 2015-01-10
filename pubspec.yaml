@@ -1,0 +1,15 @@
+name: picodev
+version: 0.0.1
+description: An experimental development environment.
+
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+
+dependencies:
+  browser: any
+  codemirror: '>=0.1.0 <0.2.0'
+  mime: any
+  path: any
+
+dev_dependencies:
+  unittest: any

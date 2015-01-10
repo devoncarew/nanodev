@@ -1,0 +1,70 @@
+<link rel="import" href="cde-elements.html">
+
+<polymer-element name="cde-inline-dialog" attributes="" layout horizontal>
+  <template>
+    <link link rel="stylesheet" href="cde.css">
+    <style>
+      :host {
+        height: 24px;
+        line-height: 24px;
+        /*margin: 6px;*/
+        border: 1px solid #d8d8d8;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.23);
+        background-color: white;
+        z-index: 9;
+        position: absolute;
+        bottom: 8px;
+        left: 16px;
+        right: 16px;
+      }
+
+      input {
+        margin: 1px;
+        margin-left: 8px;
+        border: none;
+        font-size: 14px;
+        font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode",
+            Helvetica, Arial, sans-serif !important;
+        color: #333;
+      }
+
+      input::selection {
+        background: #d7d4f0;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      cde-close-button {
+        margin-right: 4px;
+      }
+    </style>
+
+    <input id="input" flex
+        on-blur="{{handleBlur}}"
+        on-keydown="{{handleKeyDown}}">
+    <cde-close-button on-click="{{handleClose}}"></cde-close-button>
+  </template>
+
+  <script>
+    Polymer('cde-inline-dialog', {
+      name: '',
+      tooltip: '',
+
+      handleKeyDown: function(e) {
+        if (e.keyCode == 27) {
+          this.fire('cancel');
+        }
+      },
+
+      handleBlur: function(e) {
+        this.fire('cancel');
+      },
+
+      handleClose: function(e) {
+        this.fire('cancel');
+      },
+    });
+  </script>
+</polymer-element>

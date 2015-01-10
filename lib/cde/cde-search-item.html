@@ -1,0 +1,31 @@
+<link rel="import" href="cde-elements.html">
+
+<polymer-element name="cde-search-item" layout horizontal
+    attributes="maintitle subtitle context">
+  <template>
+    <link link rel="stylesheet" href="cde.css">
+    <style>
+      :host {
+        height: 24px;
+      }
+
+      .subtitle {
+        margin-left: 0.5em;
+        color: #bbb;
+      }
+
+      .context {
+        color: #bbb;
+      }
+    </style>
+
+    <div>{{maintitle}}</div>
+    <div class="subtitle" flex>{{subtitle}}</div>
+    <div class="context">{{context}}</div>
+  </template>
+
+<script>
+  Polymer('cde-search-item', {
+  });
+</script>
+</polymer-element>

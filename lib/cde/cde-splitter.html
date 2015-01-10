@@ -1,0 +1,107 @@
+<link rel="import" href="cde-elements.html">
+
+<!-- TODO: thinner splitter, with a hidden, wider div above -->
+
+<polymer-element name="cde-splitter" attributes="direction locked minSize"
+    on-trackstart="{{trackStart}}" on-track="{{track}}" on-down="{{preventSelection}}">
+
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 8px;
+        cursor: col-resize;
+      }
+
+      :host(.horizontal) {
+        width: auto;
+        height: 8px;
+        cursor: row-resize;
+      }
+
+      :host(:hover, :active) {
+        /*background-color: #ddd;*/
+      }
+    </style>
+  </template>
+
+<script>
+  Polymer('cde-splitter', {
+
+    /**
+     * Possible values are `left`, `right`, `up` and `down`.
+     *
+     * @attribute direction
+     * @type string
+     * @default 'left'
+     */
+    direction: 'left',
+
+    /**
+     * Minimum width to which the splitter target can be sized, e.g.
+     * `minSize="100px"`
+     *
+     * @attribute minSize
+     * @type string
+     * @default ''
+     */
+    minSize: '',
+
+    /**
+     * Locks the split bar so it can't be dragged.
+     *
+     * @attribute locked
+     * @type boolean
+     * @default false
+     */
+    locked: false,
+
+    ready: function() {
+      this.directionChanged();
+    },
+
+    domReady: function() {
+      this.parentNode.style.overflow = this.nextElementSibling.style.overflow =
+          this.previousElementSibling.style.overflow = 'hidden';
+    },
+
+    directionChanged: function() {
+      this.isNext = this.direction === 'right' || this.direction === 'down';
+      this.horizontal = this.direction === 'up' || this.direction === 'down';
+      this.update();
+    },
+
+    update: function() {
+      this.target = this.isNext ? this.nextElementSibling : this.previousElementSibling;
+      this.dimension = this.horizontal ? 'height' : 'width';
+      this.classList.toggle('horizontal', this.horizontal);
+    },
+
+    targetChanged: function(old) {
+      if (old) {
+        old.style[old.__splitterMinSize] = '';
+      }
+      var min = this.target.__splitterMinSize = this.horizontal ? 'minHeight' : 'minWidth';
+      this.target.style[min] = this.minSize;
+    },
+
+    trackStart: function() {
+      this.update();
+      this.size = parseInt(getComputedStyle(this.target)[this.dimension]);
+    },
+
+    track: function(e) {
+      if (this.locked) {
+        return;
+      }
+      var d = e[this.horizontal ? 'dy' : 'dx'];
+      this.target.style[this.dimension] =
+          this.size + (this.isNext ? -d : d) + 'px';
+    },
+
+    preventSelection: function(e) {
+      e.preventDefault();
+    }
+  });
+</script>
+</polymer-element>

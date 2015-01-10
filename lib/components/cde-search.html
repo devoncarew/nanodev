@@ -1,0 +1,119 @@
+
+<link rel="import" href="../cde/cde-elements.html">
+
+<polymer-element name="cde-search" attributes="placeholder focused" horizontal layout>
+  <template>
+    <link link rel="stylesheet" href="../cde/cde.css">
+    <style>
+      :host {
+        display: inline-block;
+        background: #fff;
+        padding-left: 0;
+        height: 22px;
+        min-width: 280px;
+        line-height: 22px;
+        border: 1px solid #888;
+        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.10);
+        transition: 100ms;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+
+      /*.host:hover {
+        border: 1px solid #b8b8b8;
+      }*/
+
+      :host([focused]) {
+        border: 1px solid #6CA6CD;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.23);
+      }
+
+      .search-container {
+
+      }
+
+      /*:host([focused]) .search-container {
+        border: 1px solid #6CA6CD;
+        border-right: 0;
+      }*/
+
+      .search-icon {
+        background: #888;
+        color: #fff;
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+
+      :host([focused]) .search-icon {
+        background: #6CA6CD;
+      }
+
+      cde-icon {
+        position: relative;
+        top: -1px;
+        margin: 0 6px;
+      }
+
+      input {
+        margin: 1px;
+        margin-left: 8px;
+        border: none;
+        font-size: 14px;
+        font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode",
+            Helvetica, Arial, sans-serif !important;
+        color: #333;
+      }
+
+      input::selection {
+        background: #6CA6CD;
+      }
+
+      input:focus {
+        outline: none;
+      }
+    </style>
+
+    <div class="search-container" layout horizontal flex>
+      <cde-search-area>
+        <cde-search-item maintitle="foo1" subtitle="bar" context="ctrl-s">
+        </cde-search-item>
+        <cde-search-item maintitle="foo2" subtitle="bar">
+        </cde-search-item>
+        <cde-search-item maintitle="foo bar baz" subtitle="bar" context="ctrl-shift-1">
+        </cde-search-item>
+      </cde-search-area>
+      <input id="input" placeholder="{{placeholder}}"
+          on-focus="{{handleFocus}}" on-blur="{{handleBlur}}"
+          on-keydown="{{handleKeyDown}}" flex self-center>
+    </div>
+    <div class="search-icon" on-click="{{focus}}">
+      <cde-icon icon="search" small></cde-icon>
+    </div>
+  </template>
+
+  <script>
+    Polymer('cde-search', {
+      placeholder: '',
+
+      focus: function() {
+        this.$.input.focus();
+      },
+
+      handleFocus: function(e) {
+        var target = e.target.parentNode.parentNode.host;
+        target.setAttribute('focused', true);
+      },
+
+      handleBlur: function(e) {
+        var target = e.target.parentNode.parentNode.host;
+        target.removeAttribute('focused');
+      },
+
+      handleKeyDown: function(e) {
+        if (e.keyCode == 27) {
+          this.fire('cancel');
+        }
+      }
+    });
+  </script>
+</polymer-element>

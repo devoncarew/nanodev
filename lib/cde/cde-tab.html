@@ -1,0 +1,88 @@
+<link rel="import" href="cde-elements.html">
+
+<polymer-element name="cde-tab" attributes="dirty name active tooltip"
+    horizontal layout on-click="{{handleActivate}}">
+  <template>
+    <link link rel="stylesheet" href="cde.css">
+    <style>
+      :host {
+        display: inline-block;
+        height: 23px;
+        width: 140px;
+        vertical-align: middle;
+        line-height: 24px;
+        color: #999;
+        transition: 100ms;
+        cursor: pointer;
+        transition: 100ms;
+      }
+
+      :host([active]) {
+        border-bottom: 2px solid #4C4C4C;
+      }
+
+      :host([active]) .name {
+        color: #000;
+      }
+
+      :host(:hover) .name {
+        color: #111;
+      }
+
+      #dirtyIndicator {
+        opacity: 0;
+        font-size: 22px;
+        /*margin-left: 3px;*/
+        margin-right: 3px;
+      }
+
+      :host([dirty]) #dirtyIndicator {
+        opacity: 0.7;
+      }
+
+      :host([active]) #dirtyIndicator {
+        color: #000;
+      }
+
+      .name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      cde-close-button {
+        /*margin-left: 4px;*/
+        margin-right: 4px;
+        /*opacity: 0;*/
+        display: none;
+        transition: opacity 200ms;
+      }
+
+      :host(:hover) cde-close-button {
+        display: inline-block;
+        /*opacity: 1;*/
+      }
+    </style>
+
+    <div id="dirtyIndicator">&bull;</div>
+    <div class="name" flex title="{{tooltip}}">{{name}}</div>
+    <cde-close-button on-click="{{handleClose}}"></cde-close-button>
+  </template>
+
+  <script>
+    Polymer('cde-tab', {
+      name: '',
+      tooltip: '',
+
+      handleClose: function(e) {
+        e.stopPropagation();
+        this.fire('close', {'tab': this});
+      },
+
+      handleActivate: function(e) {
+        e.stopPropagation();
+        this.fire('activate', {'tab': this});
+      }
+    });
+  </script>
+</polymer-element>
