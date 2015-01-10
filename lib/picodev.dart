@@ -103,7 +103,7 @@ class PicoDev implements IDE {
     filesView.add(item);
 
     if (r.name == 'pubspec.yaml') {
-      item.meta = 'light';
+      item.meta = 'picodev';
     } else if (r.name == 'bower.json') {
       item.meta = 'picodev';
     }
@@ -128,8 +128,8 @@ void createWorkspace() {
   new File('commands.dart', lib);
   new File('editors.dart', lib);
   new File('files.dart', lib);
-  new File('light.dart', lib);
   new File('outline.dart', lib);
+  new File('picodev.dart', lib);
 
   Folder web = new Folder('web', project);
   new File('main.dart', web);
