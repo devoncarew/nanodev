@@ -1,12 +1,10 @@
-build/
-packages/
-.buildlog
-
 *.dart.js
 *.js.deps
 *.js.map
-
-pubspec.lock
+.buildlog
+.pub/
 .settings/
-
+build/
 lib/bower_components/
+packages
+pubspec.lock

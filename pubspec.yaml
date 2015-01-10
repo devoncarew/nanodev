@@ -12,4 +12,6 @@ dependencies:
   path: any
 
 dev_dependencies:
+  ghpages_generator: any
+  grinder: any
   unittest: any
