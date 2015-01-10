@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div>Item 4</div>
     <div>Item 5</div>
   </core-selector>
-
+  
   <script>
     function oneMutation(node, options, cb) {
       var o = new MutationObserver(function() {
@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
       o.observe(node, options);
     }
-
+    
     document.addEventListener('polymer-ready', function() {
       var assert = chai.assert;
       //

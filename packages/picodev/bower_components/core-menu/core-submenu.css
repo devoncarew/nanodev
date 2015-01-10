@@ -7,7 +7,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
 */
 
-:host {
+:host { 
   display: block;
   height: auto;
 }
@@ -21,7 +21,7 @@ core-item {
 }
 
 ::content > core-item {
- cursor: default;
+ cursor: default; 
 }
 
 :host(.font-scalable) > core-item {

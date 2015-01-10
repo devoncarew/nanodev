@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
-
+  
   <link rel="import" href="../core-localstorage.html">
 
 </head>
@@ -33,21 +33,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <core-localstorage id="localstorage" name="core-localstorage-test" value="{{value}}"></core-localstorage>
     </template>
   </polymer-element>
-
+  
   <x-test></x-test>
 
   <script>
 
     window.localStorage.setItem('core-localstorage-test', '{"foo":"bar"}');
     var xtest = document.querySelector('x-test');
-
+    
     suite('basic', function() {
 
       test('initial value', function() {
         assert.isNotNull(xtest.value);
         assert.equal(xtest.value.foo, 'bar');
       });
-
+      
       test('set value', function(done) {
         var newValue = {'foo': 'zot'};
         xtest.value = newValue;
@@ -58,7 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           done();
         });
       });
-
+      
       test('save', function(done) {
         xtest.value.foo = 'quux';
         xtest.$.localstorage.save();
@@ -71,7 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
     });
-
+    
   </script>
 
 </body>

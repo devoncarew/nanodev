@@ -19,7 +19,7 @@ Example:
     <paper-checkbox></paper-checkbox>
 
     <paper-checkbox checked></paper-checkbox>
-
+    
 Styling checkbox:
 
 To change the ink color for checked state:
@@ -27,7 +27,7 @@ To change the ink color for checked state:
     paper-checkbox::shadow #ink[checked] {
       color: #4285f4;
     }
-
+    
 To change the checkbox checked color:
 
     paper-checkbox::shadow #checkbox.checked {
@@ -60,32 +60,32 @@ To change the checbox unchecked color:
   <link rel="stylesheet" href="paper-checkbox.css">
 
   <div id="checkboxContainer" class="{{ {labeled: label} | tokenList }}" >
-
+  
     <paper-ripple id="ink" class="circle recenteringTouch" checked?="{{!checked}}"></paper-ripple>
-
+     
     <div id="checkbox" on-animationend="{{checkboxAnimationEnd}}" on-webkitAnimationEnd="{{checkboxAnimationEnd}}"></div>
-
+    
   </div>
-
+  
   <div id="checkboxLabel" hidden?="{{!label}}">{{label}}<content></content></div>
 
 </template>
 <script>
 
   Polymer('paper-checkbox', {
-
+    
     /**
      * Fired when the checked state changes due to user interaction.
      *
      * @event change
      */
-
+     
     /**
      * Fired when the checked state changes.
      *
      * @event core-change
      */
-
+    
     toggles: true,
 
     checkedChanged: function() {
@@ -105,6 +105,6 @@ To change the checbox unchecked color:
     }
 
   });
-
+  
 </script>
 </polymer-element>

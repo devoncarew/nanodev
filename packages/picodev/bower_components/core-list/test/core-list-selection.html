@@ -90,9 +90,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       function(next) {
         waitFor(function() {
-          chai.assert(list.selection && list.selection == list.data[0],
+          chai.assert(list.selection && list.selection == list.data[0], 
             'first item should be selected; selected id was ' + list.selection && list.selection.id);
-          chai.assert(item.classList.contains('selected'),
+          chai.assert(item.classList.contains('selected'), 
             'first item should have selected class');
         }, next);
       },
@@ -102,11 +102,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var thirdItem = document.elementFromPoint(list.clientWidth-50, 2 * height);
         thirdItem.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         waitFor(function() {
-          chai.assert(list.selection && list.selection == list.data[2],
+          chai.assert(list.selection && list.selection == list.data[2], 
             'third item should be selected; selected id was ' + list.selection && list.selection.id);
-          chai.assert(!firstItem.classList.contains('selected'),
+          chai.assert(!firstItem.classList.contains('selected'), 
             'first item should not have selected class');
-          chai.assert(thirdItem.classList.contains('selected'),
+          chai.assert(thirdItem.classList.contains('selected'), 
             'third item should have selected class');
         }, next);
       },
@@ -116,11 +116,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var thirdItem = document.elementFromPoint(list.clientWidth-50, 2 * height);
         firstItem.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         waitFor(function() {
-          chai.assert(list.selection && list.selection == list.data[0],
+          chai.assert(list.selection && list.selection == list.data[0], 
             'first item should be selected; selected id was ' + list.selection && list.selection.id);
-          chai.assert(firstItem.classList.contains('selected'),
+          chai.assert(firstItem.classList.contains('selected'), 
             'first item should have selected class');
-          chai.assert(!thirdItem.classList.contains('selected'),
+          chai.assert(!thirdItem.classList.contains('selected'), 
             'third item should not have selected class');
         }, next);
       },
@@ -128,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       function(next) {
         list.data.splice(0, 0, generateItem());
         waitFor(function() {
-          chai.assert(list.selection && list.selection == list.data[1],
+          chai.assert(list.selection && list.selection == list.data[1], 
             'second item should be selected; selected id was ' + list.selection && list.selection.id);
         }, next);
       },
@@ -136,7 +136,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       function(next) {
         list.data.splice(2, 0, generateItem());
         waitFor(function() {
-          chai.assert(list.selection && list.selection == list.data[1],
+          chai.assert(list.selection && list.selection == list.data[1], 
             'second item should be selected; selected id was ' + list.selection && list.selection.id);
         }, next);
       },
@@ -144,9 +144,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       function(next) {
         list.multi = true;
         waitFor(function() {
-          chai.assert(list.selection.length == 1,
+          chai.assert(list.selection.length == 1, 
             'selection length should be 1');
-          chai.assert(list.selection && list.selection[0] == list.data[1],
+          chai.assert(list.selection && list.selection[0] == list.data[1], 
             'second item should be selected; selected id was ' + list.selection && list.selection.id);
         }, next);
       },
@@ -158,19 +158,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         firstItem.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         thirdItem.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         waitFor(function() {
-          chai.assert(list.selection.length == 3,
+          chai.assert(list.selection.length == 3, 
             'selection length should be 3');
-          chai.assert(list.selection && list.selection[0] == list.data[1],
+          chai.assert(list.selection && list.selection[0] == list.data[1], 
             'second item should be selected; selected id was ' + list.selection[0] && list.selection[0].id);
-          chai.assert(list.selection && list.selection[1] == list.data[0],
+          chai.assert(list.selection && list.selection[1] == list.data[0], 
             'first item should be selected; selected id was ' + list.selection[1] && list.selection[1].id);
-          chai.assert(list.selection && list.selection[2] == list.data[2],
+          chai.assert(list.selection && list.selection[2] == list.data[2], 
             'third item should be selected; selected id was ' + list.selection[2] && list.selection[2].id);
-          chai.assert(firstItem.classList.contains('selected'),
+          chai.assert(firstItem.classList.contains('selected'), 
             'first item should have selected class');
-          chai.assert(secondItem.classList.contains('selected'),
+          chai.assert(secondItem.classList.contains('selected'), 
             'second item should have selected class');
-          chai.assert(thirdItem.classList.contains('selected'),
+          chai.assert(thirdItem.classList.contains('selected'), 
             'third item should have selected class');
         }, next);
       },
@@ -181,13 +181,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var secondItem = document.elementFromPoint(list.clientWidth-50, 1 * height);
         var thirdItem = document.elementFromPoint(list.clientWidth-50, 2 * height);
         waitFor(function() {
-          chai.assert(!list.selection,
+          chai.assert(!list.selection, 
             'selection length should be 3');
-          chai.assert(!firstItem.classList.contains('selected'),
+          chai.assert(!firstItem.classList.contains('selected'), 
             'first item should not have selected class');
-          chai.assert(!secondItem.classList.contains('selected'),
+          chai.assert(!secondItem.classList.contains('selected'), 
             'second item should not have selected class');
-          chai.assert(!thirdItem.classList.contains('selected'),
+          chai.assert(!thirdItem.classList.contains('selected'), 
             'third item should not have selected class');
         }, next);
       },
@@ -198,7 +198,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         waitFor(function() {
           chai.assert(list.selection && list.selection == list.data[1],
             'second item should be selected; selected id was ' + (list.selection && list.selection.id));
-          chai.assert(item.classList.contains('selected'),
+          chai.assert(item.classList.contains('selected'), 
             'second item should have selected class');
         }, next);
       },
@@ -211,30 +211,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var secondItem = document.elementFromPoint(list.clientWidth-50, 1 * height);
         var thirdItem = document.elementFromPoint(list.clientWidth-50, 2 * height);
         waitFor(function() {
-          chai.assert(list.selection.length == 3,
+          chai.assert(list.selection.length == 3, 
             'selection length should be 3');
-          chai.assert(list.selection && list.selection[0] == list.data[1],
+          chai.assert(list.selection && list.selection[0] == list.data[1], 
             'second item should be selected; selected id was ' + list.selection[0] && list.selection[0].id);
-          chai.assert(list.selection && list.selection[1] == list.data[0],
+          chai.assert(list.selection && list.selection[1] == list.data[0], 
             'first item should be selected; selected id was ' + list.selection[1] && list.selection[1].id);
-          chai.assert(list.selection && list.selection[2] == list.data[2],
+          chai.assert(list.selection && list.selection[2] == list.data[2], 
             'third item should be selected; selected id was ' + list.selection[2] && list.selection[2].id);
-          chai.assert(firstItem.classList.contains('selected'),
+          chai.assert(firstItem.classList.contains('selected'), 
             'first item should have selected class');
-          chai.assert(secondItem.classList.contains('selected'),
+          chai.assert(secondItem.classList.contains('selected'), 
             'second item should have selected class');
-          chai.assert(thirdItem.classList.contains('selected'),
+          chai.assert(thirdItem.classList.contains('selected'), 
             'third item should have selected class');
         }, next);
       },
       function(next) {
         list.clearSelection();
-        chai.assert(list.selection.length === 0,
+        chai.assert(list.selection.length === 0, 
           'selection length should be 0 after calling clearSelection when multi:true');
         list.multi = false;
         list.selectItem(0);
         list.clearSelection();
-        chai.assert(!list.selection,
+        chai.assert(!list.selection, 
           'selection should be null after calling clearSelection when multi:false');
         next();
       }

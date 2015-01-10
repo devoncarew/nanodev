@@ -19,7 +19,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     .core-selected {
       background: #ccc;
     }
-
+    
     .my-selected {
       background: red;
     }
@@ -34,9 +34,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div>Item 4</div>
     <div>Item 5</div>
   </core-selector>
-
+  
   <br><br>
-
+  
   <core-selector id="selector2" selected="item3" selectedClass="my-selected" valueattr="id">
     <div id="item1">Item 1</div>
     <div id="item2">Item 2</div>
@@ -44,10 +44,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div id="item4">Item 4</div>
     <div id="item5">Item 5</div>
   </core-selector>
-
+  
   <script>
     var async = requestAnimationFrame;
-
+    
     function oneMutation(node, options, cb) {
       var o = new MutationObserver(function() {
         cb();
@@ -55,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
       o.observe(node, options);
     }
-
+    
     document.addEventListener('polymer-ready', function() {
       var assert = chai.assert;
       // selector1

@@ -10,23 +10,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html>
 <head>
   <title>core-collapse</title>
-
+  
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <link rel="import" href="../../polymer-test-tools/tools.html">
   <script src="../../polymer-test-tools/htmltest.js"></script>
 
+  
   <link rel="import" href="../../core-collapse/core-collapse.html">
 </head>
 <body unresolved>
 
   <button onclick="document.querySelector('#collapse').toggle()">toggle collapse</button>
-
+  
   <core-collapse id="collapse" duration="0.1" opened>
     <div>
     Forma temperiemque cornua sidera dissociata cornua recessit innabilis ligavit: solidumque coeptis nullus caelum sponte phoebe di regat mentisque tanta austro capacius amphitrite sui quin postquam semina fossae liquidum umor galeae coeptis caligine liberioris quin liquidum matutinis invasit posset: flexi glomeravit radiis certis invasit oppida postquam onerosior inclusum dominari opifex terris pace finxit quam aquae nunc sine altae auroram quam habentem homo totidemque scythiam in pondus ensis tegit caecoque poena lapidosos humanas coeperunt poena aetas totidem nec natura aethera locavit caelumque distinxit animalibus phoebe cingebant moderantum porrexerat terrae possedit sua sole diu summaque obliquis melioris orbem
     </div>
   </core-collapse>
-
+  
   <script>
     var delay = 200;
     document.addEventListener('polymer-ready', function() {
@@ -55,12 +56,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }, delay);
       }, delay);
     });
-
+    
     function getCollapseComputedStyle() {
       var b = document.querySelector('#collapse');
       return getComputedStyle(b);
     }
-
+    
   </script>
 
 </body>

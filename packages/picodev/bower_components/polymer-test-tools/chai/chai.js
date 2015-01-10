@@ -1305,6 +1305,7 @@ module.exports = function (chai, _) {
     );
   });
 
+
   /**
    * ### .empty
    *
@@ -1797,6 +1798,7 @@ module.exports = function (chai, _) {
     flag(this, 'object', value);
   });
 
+
   /**
    * ### .ownProperty(name)
    *
@@ -1919,6 +1921,7 @@ module.exports = function (chai, _) {
       , 'expected #{this} to not contain ' + _.inspect(str)
     );
   });
+
 
   /**
    * ### .keys(key1, [key2], [...])
@@ -2318,6 +2321,7 @@ require.register("chai/lib/chai/interface/assert.js", function(exports, require,
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
+
 
 module.exports = function (chai, util) {
 
@@ -3383,6 +3387,7 @@ module.exports = function (chai, util) {
   };
 };
 
+
 });
 require.register("chai/lib/chai/interface/should.js", function(exports, require, module){
 /*!
@@ -4085,6 +4090,7 @@ exports.addChainableMethod = require('./addChainableMethod');
 
 exports.overwriteChainableMethod = require('./overwriteChainableMethod');
 
+
 });
 require.register("chai/lib/chai/utils/inspect.js", function(exports, require, module){
 // This is (almost) directly from Node.js utils
@@ -4257,6 +4263,7 @@ function formatValue(ctx, value, recurseTimes) {
   return reduceToSingleString(output, base, braces);
 }
 
+
 function formatPrimitive(ctx, value) {
   switch (typeof value) {
     case 'undefined':
@@ -4280,9 +4287,11 @@ function formatPrimitive(ctx, value) {
   }
 }
 
+
 function formatError(value) {
   return '[' + Error.prototype.toString.call(value) + ']';
 }
+
 
 function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
   var output = [];
@@ -4302,6 +4311,7 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
   });
   return output;
 }
+
 
 function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
   var name, str;
@@ -4361,6 +4371,7 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
 
   return name + ': ' + str;
 }
+
 
 function reduceToSingleString(output, base, braces) {
   var numLinesEst = 0;
@@ -4747,6 +4758,9 @@ module.exports = function (obj) {
 };
 
 });
+
+
+
 
 require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
 require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");

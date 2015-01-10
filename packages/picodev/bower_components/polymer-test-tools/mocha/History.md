@@ -19,6 +19,7 @@
   * fix: regex that generates html for new keyword (#1201)
   * fix: sibling suites have inherited but separate contexts (#1164)
 
+
 1.18.2 / 2014-03-18
 ==================
 
@@ -52,6 +53,7 @@
   * fix: canonicalize objects before stringifying and diffing them (#1079)
   * fix: make CR call behave like carriage return for non tty (#1087)
 
+
 1.16.2 / 2013-12-23
 ==================
 
@@ -59,10 +61,12 @@
   * fix: issue running the xunit reporter in browsers (#1068)
   * fix: issue with firefox < 3.5 (#725)
 
+
 1.16.1 / 2013-12-19
 ==================
 
   * fix: recompiled for missed changes from the last release
+
 
 1.16.0 / 2013-12-19
 ==================

@@ -11,20 +11,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 Use to create nested menus inside of `core-menu` elements.
 
     <core-menu selected="0">
-
+    
       <core-submenu icon="settings" label="Topics">
         <core-item label="Topic 1"></core-item>
         <core-item label="Topic 2"></core-item>
       </core-submenu>
-
+      
       <core-submenu icon="settings" label="Favorites">
         <core-item label="Favorite 1"></core-item>
         <core-item label="Favorite 2"></core-item>
         <core-item label="Favorite 3"></core-item>
       </core-submenu>
-
+      
     </core-menu>
-
+    
 There is a margin set on the submenu to indent the items.
 You can override the margin by doing:
 
@@ -37,21 +37,21 @@ To style the item for the submenu, do something like this:
     core-submenu::shadow > #submenuItem {
       color: blue;
     }
-
+    
 To style all the `core-item`s in the light DOM:
 
     polyfill-next-selector { content: 'core-submenu > #submenu > core-item'; }
     core-submenu > core-item {
       color: red;
     }
-
+    
 The above will style `Topic1` and `Topic2` to have font color red.
 
     <core-submenu icon="settings" label="Topics">
       <core-item label="Topic1"></core-item>
       <core-item label="Topic2"></core-item>
     </core-submenu>
-
+    
 @group Polymer Core Elements
 @element core-submenu
 @extends core-item
@@ -108,7 +108,7 @@ The above will style `Topic1` and `Topic2` to have font color red.
         this.unselectAllItems();
       }
     },
-
+    
     toggle: function() {
       this.opened = !this.opened;
     },
@@ -119,7 +119,7 @@ The above will style `Topic1` and `Topic2` to have font color red.
         this.unselectAllItems();
       }
     }
-
+    
   });
 
 </script>

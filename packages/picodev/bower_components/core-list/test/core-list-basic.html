@@ -71,9 +71,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var checkTopItem = function(positionDescription) {
       // Measure from top-right (to avoid template children)
       var item = document.elementFromPoint(list.clientWidth-50, 0);
-      chai.assert(item &&
-        item.templateInstance &&
-        item.templateInstance.model &&
+      chai.assert(item && 
+        item.templateInstance && 
+        item.templateInstance.model && 
         item.templateInstance.model.index == index,
           'top item index should be ' + index + ' ' + positionDescription);
       chai.assert(item.templateInstance.model.model == list.data[index],
@@ -119,7 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       function(next) {
         waitFor(function() {
-          chai.assert(list.selection && list.selection.id == list.data[0].id,
+          chai.assert(list.selection && list.selection.id == list.data[0].id, 
             'first item should be selected; selected id was ' + list.selection && list.selection.id);
         }, next);
       },
@@ -128,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var item = document.elementFromPoint(list.clientWidth-50, height);
         item.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         waitFor(function() {
-          chai.assert(list.selection && list.selection.id == list.data[1].id,
+          chai.assert(list.selection && list.selection.id == list.data[1].id, 
             'second item should be selected; selection ' + list.selection && list.selection.id);
         }, next);
       },
@@ -138,11 +138,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var item = document.elementFromPoint(list.clientWidth-50, 0);
         item.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         waitFor(function() {
-          chai.assert(list.selection && list.selection.length == 2,
+          chai.assert(list.selection && list.selection.length == 2, 
             'selection length should be 2');
           // Note, selection is maintained in order, so last item selected is last in selection
-          chai.assert(list.selection[0].id == list.data[1].id && list.selection[1].id == list.data[0].id,
-            'first and second items should be selected; selected ids: ' +
+          chai.assert(list.selection[0].id == list.data[1].id && list.selection[1].id == list.data[0].id, 
+            'first and second items should be selected; selected ids: ' +  
             list.selection[0].id + ', ' + list.selection[1].id);
         }, next);
       },
@@ -152,11 +152,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         waitFor(function() {
           chai.assert(list.children.length == 3,
             'children.length should stay 3 (1 template, plus 2 originally created items)');
-          chai.assert(list.children[2].getAttribute('hidden') !== null,
+          chai.assert(list.children[2].getAttribute('hidden') !== null, 
             'last element should be hidden');
-          chai.assert(list.selection.length == 1,
+          chai.assert(list.selection.length == 1, 
             'selection length should be 1');
-          chai.assert(list.selection[0].id == list.data[0].id,
+          chai.assert(list.selection[0].id == list.data[0].id, 
             'first element should be selected');
         }, next);
       },
@@ -165,7 +165,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var item = document.elementFromPoint(list.clientWidth-50, 0);
         item.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         waitFor(function() {
-          chai.assert(list.selection.length === 0,
+          chai.assert(list.selection.length === 0, 
             'selection length should be 0');
         }, next);
       },
@@ -249,9 +249,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var item = document.elementFromPoint(list.clientWidth-50, 0);
         item.dispatchEvent(new MouseEvent('tap', {'view': window, 'bubbles': true}));
         waitFor(function() {
-          chai.assert(list.selection.length === 1,
+          chai.assert(list.selection.length === 1, 
             'selection length should be 1');
-          chai.assert(list.selection[0].id == list.data[index].id,
+          chai.assert(list.selection[0].id == list.data[index].id, 
             'top item at bottom of list (index ' + index + ') should be selected');
         }, next);
       },
@@ -262,9 +262,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         index = list.data.length - Math.ceil(list.offsetHeight / height);
         waitFor(function() {
           checkTopItem('at bottom of list after deleting one item from end of list');
-          chai.assert(list.selection.length === 1,
+          chai.assert(list.selection.length === 1, 
             'selection length should be 1');
-          chai.assert(list.selection[0].id == list.data[lastIndex].id,
+          chai.assert(list.selection[0].id == list.data[lastIndex].id, 
             'previously selected item (index ' + lastIndex + ') should stay selected');
         }, next);
       },
@@ -275,7 +275,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         index = list.data.length - Math.ceil(list.offsetHeight / height);
         waitFor(function() {
           checkTopItem('at bottom of list after deleting half of items items from end of list');
-          chai.assert(list.selection.length === 0,
+          chai.assert(list.selection.length === 0, 
             'selection length should be 0');
         }, next);
       },
@@ -303,7 +303,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //     var item = document.elementFromPoint(list.clientWidth-50, 0);
       //     webdriverCommand(['clickElement', item], function(err) {
       //       waitFor(function() {
-      //         chai.assert(list.selection && list.selection.id == list.data[0].id,
+      //         chai.assert(list.selection && list.selection.id == list.data[0].id, 
       //           'first item should be selected; selection was ' + (list.selection && list.selection.id));
       //       }, next);
       //     }, next);
@@ -312,7 +312,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //     webdriverCommand(['moveTo', null, list.offsetWidth-50, 0], function(err) {
       //       webdriverCommand(['click', 0], function(err) {
       //         waitFor(function() {
-      //           chai.assert(list.selection && list.selection.id == list.data[0].id,
+      //           chai.assert(list.selection && list.selection.id == list.data[0].id, 
       //             'first item should be selected; selection was ' + (list.selection && list.selection.id));
       //         }, next);
       //       }, next);

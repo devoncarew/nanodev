@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <title>core-list</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <script src="../webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="../polymer/polymer.html">
   <link rel="import" href="core-list.html">
   <style>
     html, body {
@@ -19,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       -webkit-tap-highlight-color: transparent;
       overflow: hidden;
     }
-
+    
     list-test {
       display: block;
       height: 100%;
@@ -61,18 +62,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       background-position: 10px 10px;
       background-size: 60px;
     }
-
+    
     .from {
       display: inline;
       font-weight: bold;
     }
-
+    
     .timestamp {
       margin-left: 10px;
       font-size: 12px;
       opacity: 0.8;
     }
-
+    
     .body {
       font-size: 12px;
     }
@@ -112,7 +113,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <button on-tap="{{deleteSelection}}">Delete selection</button>
   </div>
   <div layout horizontal wrap class="spaced">
-    Selected values:
+    Selected values: 
     <template repeat="{{multi ? selection: [selection]}}">
       <div class="selection-display">Id {{id}}: {{checked}} {{value}} {{['a','b','c'][type]}}</div>
     </template>
@@ -227,7 +228,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.data = this.generateData();
     }
   });
-})();
+})();  
 </script>
 </polymer-element>
 

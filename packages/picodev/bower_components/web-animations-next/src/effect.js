@@ -38,6 +38,7 @@
     };
   };
 
+
   function makePropertySpecificKeyframeGroups(keyframeEffect) {
     var propertySpecificKeyframeGroups = {};
 
@@ -67,6 +68,7 @@
     }
     return propertySpecificKeyframeGroups;
   }
+
 
   function makeInterpolations(propertySpecificKeyframeGroups) {
     var interpolations = [];
@@ -99,9 +101,10 @@
     return interpolations;
   }
 
+
   if (WEB_ANIMATIONS_TESTING) {
     testing.makePropertySpecificKeyframeGroups = makePropertySpecificKeyframeGroups;
     testing.makeInterpolations = makeInterpolations;
   }
 
-})(webAnimationsShared, webAnimationsMinifill, webAnimationsTesting);
+})(webAnimationsShared, webAnimations1, webAnimationsTesting);

@@ -34,7 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       color: #f1f1f1;
       fill: #f1f1f1;
     }
-
+    
   </style>
 
 </head>
@@ -73,9 +73,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-icon-button icon="refresh" class="bottom"></paper-icon-button>
     <paper-icon-button icon="more-vert" class="bottom"></paper-icon-button>
   </core-toolbar>
-
+  
   <br>
-
+  
   <core-toolbar class="medium-tall" style="background: #ff5722;">
     <paper-icon-button icon="menu"></paper-icon-button>
     <span flex></span>
@@ -85,7 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </core-toolbar>
 
   <br>
-
+  
   <core-toolbar class="tall" style="background: #9c27b0;">
     <paper-icon-button icon="menu"></paper-icon-button>
     <div flex></div>
@@ -94,17 +94,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div flex class="middle indent">Title</div>
     <div flex class="bottom indent" style="font-size: 18px;">Title2</div>
   </core-toolbar>
-
+  
   <core-media-query id="mediaQuery" query="max-width: 800px"></core-media-query>
-
+  
   <script>
-
+  
     document.querySelector('#mediaQuery').addEventListener('core-media-change',
       function(e) {
         document.body.classList.toggle('core-narrow', e.detail.matches);
       });
-
+  
   </script>
-
+  
 </body>
 </html>

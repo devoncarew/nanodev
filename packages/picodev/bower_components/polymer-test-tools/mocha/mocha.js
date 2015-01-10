@@ -46,6 +46,7 @@ require.relative = function (parent) {
     };
   };
 
+
 require.register("browser/debug.js", function(module, exports, require){
 
 module.exports = function(type){
@@ -699,28 +700,28 @@ Progress.prototype.draw = function(ctx){
       , y = half
       , rad = half - 1
       , fontSize = this._fontSize;
-
+  
     ctx.font = fontSize + 'px ' + this._font;
-
+  
     var angle = Math.PI * 2 * (percent / 100);
     ctx.clearRect(0, 0, size, size);
-
+  
     // outer circle
     ctx.strokeStyle = '#9f9f9f';
     ctx.beginPath();
     ctx.arc(x, y, rad, 0, angle, false);
     ctx.stroke();
-
+  
     // inner circle
     ctx.strokeStyle = '#eee';
     ctx.beginPath();
     ctx.arc(x, y, rad - 1, 0, angle, true);
     ctx.stroke();
-
+  
     // text
     var text = this._text || (percent | 0) + '%'
       , w = ctx.measureText(text).width;
-
+  
     ctx.fillText(
         text
       , x - w / 2 + 1
@@ -856,6 +857,7 @@ function F(){};
 F.prototype = Runnable.prototype;
 Hook.prototype = new F;
 Hook.prototype.constructor = Hook;
+
 
 /**
  * Get or set the test `err`.
@@ -2179,6 +2181,7 @@ function pad(str, len) {
   return Array(len - str.length + 1).join(' ') + str;
 }
 
+
 /**
  * Returns an inline diff between 2 strings with coloured ANSI output
  *
@@ -2352,6 +2355,7 @@ function sameType(a, b) {
   b = Object.prototype.toString.call(b);
   return a == b;
 }
+
 
 }); // module: reporters/base.js
 
@@ -3304,6 +3308,7 @@ F.prototype = Base.prototype;
 List.prototype = new F;
 List.prototype.constructor = List;
 
+
 }); // module: reporters/list.js
 
 require.register("reporters/markdown.js", function(module, exports, require){
@@ -3442,6 +3447,7 @@ function F(){};
 F.prototype = Base.prototype;
 Min.prototype = new F;
 Min.prototype.constructor = Min;
+
 
 }); // module: reporters/min.js
 
@@ -3710,6 +3716,7 @@ F.prototype = Base.prototype;
 NyanCat.prototype = new F;
 NyanCat.prototype.constructor = NyanCat;
 
+
 }); // module: reporters/nyan.js
 
 require.register("reporters/progress.js", function(module, exports, require){
@@ -3803,6 +3810,7 @@ F.prototype = Base.prototype;
 Progress.prototype = new F;
 Progress.prototype.constructor = Progress;
 
+
 }); // module: reporters/progress.js
 
 require.register("reporters/spec.js", function(module, exports, require){
@@ -3892,6 +3900,7 @@ function F(){};
 F.prototype = Base.prototype;
 Spec.prototype = new F;
 Spec.prototype.constructor = Spec;
+
 
 }); // module: reporters/spec.js
 
@@ -4048,6 +4057,7 @@ F.prototype = Base.prototype;
 XUnit.prototype = new F;
 XUnit.prototype.constructor = XUnit;
 
+
 /**
  * Output tag for the given `test.`
  */
@@ -4156,6 +4166,7 @@ function F(){};
 F.prototype = EventEmitter.prototype;
 Runnable.prototype = new F;
 Runnable.prototype.constructor = Runnable;
+
 
 /**
  * Set & get timeout `ms`.
@@ -4417,6 +4428,7 @@ function F(){};
 F.prototype = EventEmitter.prototype;
 Runner.prototype = new F;
 Runner.prototype.constructor = Runner;
+
 
 /**
  * Run tests with full titles matching `re`. Updates runner.total
@@ -4732,6 +4744,7 @@ Runner.prototype.runTests = function(suite, fn){
   var self = this
     , tests = suite.tests.slice()
     , test;
+
 
   function hookErr(err, errSuite, after) {
     // before/after Each hook for errSuite failed:
@@ -5079,6 +5092,7 @@ F.prototype = EventEmitter.prototype;
 Suite.prototype = new F;
 Suite.prototype.constructor = Suite;
 
+
 /**
  * Return a clone of this `Suite`.
  *
@@ -5368,6 +5382,7 @@ function F(){};
 F.prototype = Runnable.prototype;
 Test.prototype = new F;
 Test.prototype.constructor = Test;
+
 
 }); // module: test.js
 

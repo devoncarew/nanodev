@@ -99,6 +99,7 @@ polyfill-next-selector { content: '.sourceButton.fallback';}
   top: 13px;
 }
 
+
 polyfill-next-selector { content: '#drawerPanel[narrow] .sourceButton:not(.fallback)';}
 #drawerPanel[narrow] ::content .sourceButton:not(.fallback) {
   right: 8px;
