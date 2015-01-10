@@ -1,0 +1,24 @@
+<link rel="import" href="cde-elements.html">
+
+<polymer-element name="cde-toolbar" horizontal layout>
+  <template>
+    <link link rel="stylesheet" href="cde.css">
+    <style>
+      :host {
+        display: inline-block;
+        height: 24px;
+      }
+
+      ::content div {
+        vertical-align: middle;
+        line-height: 24px;
+      }
+    </style>
+
+    <content></content>
+  </template>
+<script>
+  Polymer('cde-toolbar', {
+  });
+</script>
+</polymer-element>

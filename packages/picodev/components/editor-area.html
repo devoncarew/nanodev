@@ -1,0 +1,84 @@
+
+<link rel="import" href="../cde/cde-elements.html">
+<link rel="import" href="cde-outline.html">
+
+<polymer-element name="editor-area" vertical layout>
+
+<template>
+  <link href="../../../packages/codemirror/codemirror.css" rel="stylesheet">
+  <style>
+    :host {
+      font-size: 14px;
+      font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode",
+          Helvetica, Arial, sans-serif !important;
+      line-height: 21px;
+      color: #333;
+      display: inline-block;
+      min-width: 200px;
+      min-height: 160px;
+      position: relative;
+    }
+
+    div.card {
+      margin: 6px;
+      border: 1px solid #d8d8d8;
+      box-shadow: 0px 0px 4px rgba(0,0,0,0.23);
+      background-color: white;
+    }
+
+    .header {
+      margin: 0.5em;
+      border-bottom: 1px solid #ddd;
+      /*padding-bottom: 0.25em;*/
+    }
+
+    .content {
+      margin: 0 0.5em 0.5em 0.5em;
+    }
+
+    #codemirror {
+      /*font-family: 'Inconsolata', monospace;*/
+      /*font-size: 12pt;
+      line-height: 17px;*/
+      /*font-size: 13px;*/
+      display: block;
+      position: relative;
+    }
+
+    .CodeMirror {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <div flex vertical layout class="card">
+    <cde-toolbar class="header">
+      <cde-tabbar flex>
+        <!-- cde-tab name="foo.css" path="/foo_project/styles.css"></cde-tab>
+        <cde-tab name="foo.html" active path="/foo_project/web/main.dart"></cde-tab>
+        <cde-tab name="foo.dart" dirty></cde-tab>
+        <cde-tab name="bar_bar.dart"></cde-tab>
+        <cde-tab name="foobarbaz.dart"></cde-tab -->
+      </cde-tabbar>
+
+      <cde-icon-button icon="chevron-left"></cde-icon-button>
+      <cde-icon-button icon="chevron-right"></cde-icon-button>
+    </cde-toolbar>
+
+    <div class="content" flex layout horizontal>
+      <div flex id="codemirror" lineNumbers="false" theme="elegant" layout vertical></div>
+      <cde-splitter direction="right"></cde-splitter>
+      <cde-outline></cde-outline>
+    </div>
+  </div>
+</template>
+
+<script>
+  Polymer('editor-area', {
+  });
+</script>
+
+</polymer-element>

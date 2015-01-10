@@ -1,0 +1,21 @@
+<link rel="import" href="cde-elements.html">
+
+<polymer-element name="cde-icon" attributes="icon small">
+  <template>
+    <style>
+      #core-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      :host([small]) #core-icon {
+        width: 16px;
+        height: 16px;
+      }
+    </style>
+
+    <core-icon id="core-icon" icon="{{icon}}"></core-icon>
+  </template>
+
+  <script>Polymer({});</script>
+</polymer-element>

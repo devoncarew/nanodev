@@ -1,0 +1,29 @@
+<link rel="import" href="cde-elements.html">
+
+<link rel="import" href="../../../packages/picodev/bower_components/core-icons/av-icons.html">
+<link rel="import" href="../../../packages/picodev/bower_components/core-icons/editor-icons.html">
+
+<polymer-element name="cde-icon-button" attributes="icon">
+  <template>
+    <style>
+      :host {
+        width: 24px;
+        height: 24px;
+      }
+
+      paper-icon-button {
+        width: 24px;
+        height: 24px;
+        padding: 0;
+      }
+
+      paper-icon-button /deep/ core-icon {
+        vertical-align: inherit !important;
+      }
+    </style>
+
+    <paper-icon-button icon="{{icon}}"></paper-icon-button>
+  </template>
+
+  <script>Polymer({});</script>
+</polymer-element>

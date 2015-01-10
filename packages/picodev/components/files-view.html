@@ -1,0 +1,83 @@
+
+<link rel="import" href="../cde/cde-elements.html">
+
+<polymer-element name="files-view" attributes="label" vertical layout>
+
+<template>
+  <link link rel="stylesheet" href="../cde/cde.css">
+  <style>
+    :host {
+      line-height: 21px;
+      color: #777;
+      display: inline-block;
+      min-width: 200px;
+      min-height: 160px;
+      position: relative;
+    }
+
+    core-toolbar {
+      background-color: #5677fc;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 400;
+      height: 48px;
+      margin: 0;
+    }
+
+    core-toolbar /deep/ .toolbar-tools {
+      height: 48px;
+    }
+
+    div.card {
+      margin: 6px;
+      border: 1px solid #d8d8d8;
+      box-shadow: 0px 0px 4px rgba(0,0,0,0.23);
+      background-color: white;
+    }
+
+    .code {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      color: #155;
+    }
+
+    .header {
+      margin: 0.5em;
+      border-bottom: 1px solid #ddd;
+      /*padding-bottom: 0.25em;*/
+    }
+
+    .content {
+      margin: 0 0.5em 0.5em 0.5em;
+      overflow-y: auto;
+    }
+  </style>
+
+  <div flex vertical layout class="card">
+    <cde-toolbar class="header">
+      <div>Files</div>
+      <span flex></span>
+      <cde-icon-button icon="av:play-arrow"></cde-icon-button>
+      <cde-icon-button icon="more-vert"></cde-icon-button>
+    </cde-toolbar>
+
+    <div class="content" flex>
+      <content></content>
+      <!-- cde-file-item name="foo.css"></cde-file-item>
+      <cde-file-item name="foo.dart" meta="foolib"></cde-file-item>
+      <cde-file-item name="foo.html" selected></cde-file-item>
+      <cde-file-item name="lib" container="true"></cde-file-item>
+      <cde-file-item name="test" container="true" open></cde-file-item>
+      <cde-file-item name="all.dart"></cde-file-item -->
+    </div>
+  </div>
+</template>
+
+<script>
+  Polymer('files-view', {
+    label: ''
+  });
+</script>
+
+</polymer-element>

@@ -1,6 +1,0 @@
-.settings/
-.pub/
-build/
-lib/
-packages/
-pubspec.lock
