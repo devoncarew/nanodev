@@ -44,8 +44,13 @@
 
     .header {
       margin: 0.5em;
+      color: #666;
       border-bottom: 1px solid #ddd;
-      /*padding-bottom: 0.25em;*/
+      padding-bottom: 0.25em;
+    }
+
+    .title {
+      font-size: 16px;
     }
 
     .content {
@@ -56,7 +61,7 @@
 
   <div flex vertical layout class="card">
     <cde-toolbar class="header">
-      <div>Files</div>
+      <div class="title">Files</div>
       <span flex></span>
       <cde-icon-button icon="av:play-arrow"></cde-icon-button>
       <cde-icon-button icon="more-vert"></cde-icon-button>

@@ -20,8 +20,13 @@
 
       .header {
         margin: 0.5em;
+        color: #666;
         border-bottom: 1px solid #ddd;
         padding-bottom: 0.25em;
+      }
+
+      .title {
+        font-size: 16px;
       }
 
       .content {
@@ -31,7 +36,7 @@
 
     <div flex vertical layout class="card">
       <cde-toolbar class="header">
-        <span>{{maintitle}}</span>
+        <span class="title">{{maintitle}}</span>
         <span flex></span>
         <cde-icon-button icon="more-vert"></cde-icon-button>
       </cde-toolbar>
