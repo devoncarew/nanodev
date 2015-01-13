@@ -22,27 +22,27 @@ To change the ink color for checked state:
     paper-toggle-button::shadow paper-radio-button::shadow #ink[checked] {
       color: #4285f4;
     }
-    
+
 To change the radio checked color:
-    
+
     paper-toggle-button::shadow paper-radio-button::shadow #onRadio {
       background-color: #4285f4;
     }
-    
+
 To change the bar color for checked state:
 
     paper-toggle-button::shadow #toggleBar[checked] {
       background-color: #4285f4;
     }
-    
+
 To change the ink color for unchecked state:
 
     paper-toggle-button::shadow paper-radio-button::shadow #ink {
       color: #b5b5b5;
     }
-    
+
 To change the radio unchecked color:
-    
+
     paper-toggle-button::shadow paper-radio-button::shadow #offRadio {
       border-color: #b5b5b5;
     }
@@ -66,25 +66,25 @@ To change the bar color for unchecked state:
   <link rel="stylesheet" href="paper-toggle-button.css">
 
   <div id="toggleContainer" disabled?="{{disabled}}">
-  
+
     <div id="toggleBar" checked?="{{checked}}"></div>
-  
+
     <paper-radio-button id="toggleRadio" toggles checked="{{checked}}" on-change="{{changeAction}}" on-core-change="{{stopPropagation}}"
         on-trackstart="{{trackStart}}" on-trackx="{{trackx}}" on-trackend="{{trackEnd}}"></paper-radio-button>
-    
+
   </div>
 
 </template>
 <script>
 
   Polymer('paper-toggle-button', {
-    
+
     /**
      * Fired when the checked state changes due to user interaction.
      *
      * @event change
      */
-     
+
     /**
      * Fired when the checked state changes.
      *
@@ -99,7 +99,7 @@ To change the bar color for unchecked state:
      * @default false
      */
     checked: false,
-    
+
     /**
      * If true, the toggle button is disabled.  A disabled toggle button cannot
      * be tapped or dragged to change the checked state.
@@ -116,7 +116,7 @@ To change the bar color for unchecked state:
     },
 
     trackx: function(e) {
-      this._x = Math.min(this._w, 
+      this._x = Math.min(this._w,
           Math.max(0, this.checked ? this._w + e.dx : e.dx));
       this.$.toggleRadio.classList.add('dragging');
       var s =  this.$.toggleRadio.style;
@@ -133,17 +133,17 @@ To change the bar color for unchecked state:
         this.fire('change');
       }
     },
-    
+
     checkedChanged: function() {
       this.setAttribute('aria-pressed', Boolean(this.checked));
       this.fire('core-change');
     },
-    
+
     changeAction: function(e) {
       e.stopPropagation();
       this.fire('change');
     },
-    
+
     stopPropagation: function(e) {
       e.stopPropagation();
     }

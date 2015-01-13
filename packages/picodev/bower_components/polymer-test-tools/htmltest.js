@@ -31,7 +31,7 @@ if (window.top === window) {
     window.onerror = null;
     parent.postMessage('ok', '*');
   };
-  
+
   window.onerror = function(x) {
     parent.postMessage({error: x}, '*');
   };
@@ -72,8 +72,8 @@ window.waitFor = function(fn, next, intervalOrMutationEl, timeout, timeoutTime) 
   timeoutTime = timeoutTime || Date.now() + (timeout || 1000);
   intervalOrMutationEl = intervalOrMutationEl || 32;
   try {
-    fn(); 
-  } catch (e) { 
+    fn();
+  } catch (e) {
     if (Date.now() > timeoutTime) {
       throw e;
     } else {

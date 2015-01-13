@@ -2,10 +2,10 @@
 library keys;
 
 import 'dart:html';
+import 'dart:async';
 
 import 'commands.dart';
-
-final _isMac = window.navigator.appVersion.toLowerCase().contains('macintosh');
+import 'util.dart';
 
 /**
  * Map key events into commands.
@@ -13,23 +13,26 @@ final _isMac = window.navigator.appVersion.toLowerCase().contains('macintosh');
 class Keys {
   final CommandManager commandManager;
   Map<String, String> _bindings = {};
+  StreamSubscription _sub;
 
   Keys(this.commandManager) {
-    document.onKeyDown.listen(_handleKeyEvent);
-    //document.onKeyPress.listen(_handleKeyEvent);
+    _sub = document.onKeyDown.listen(_handleKeyEvent);
   }
 
   void bind(String key, String command) {
     _bindings[key] = command;
   }
 
+  void dispose() {
+    _sub.cancel();
+  }
+
   void _handleKeyEvent(KeyboardEvent event) {
-    //KeyEvent k = new KeyEvent.wrap(event);
     KeyboardEvent k = event;
 
-    if (k.keyCode < 27 || k.keyCode == 91) return;
+    //if (k.keyCode < 27 || k.keyCode == 91) return;
     if (!k.altKey && !k.ctrlKey && !k.metaKey) return;
-    if (!KeyCode.isCharacterKey(k.keyCode)) return;
+    //if (!KeyCode.isCharacterKey(k.keyCode)) return;
 
     if (_handleKey(printKeyEvent(k))) {
       k.preventDefault();
@@ -41,7 +44,10 @@ class Keys {
     String command = _bindings[key];
 
     if (command != null) {
-      commandManager.executeCommand(null, command);
+      Timer.run(() {
+        commandManager.executeCommand(null, command);
+      });
+
       return true;
     } else {
       return false;
@@ -57,8 +63,8 @@ String printKeyEvent(KeyboardEvent event) {
 
   // shift ctrl alt
   if (event.shiftKey) buf.write('shift-');
-  if (event.ctrlKey) buf.write(_isMac ? 'macctrl-' : 'ctrl-');
-  if (event.metaKey) buf.write(_isMac ? 'ctrl-' : 'meta-');
+  if (event.ctrlKey) buf.write(isMac() ? 'macctrl-' : 'ctrl-');
+  if (event.metaKey) buf.write(isMac() ? 'ctrl-' : 'meta-');
   if (event.altKey) buf.write('alt-');
 
   if (_codeMap.containsKey(event.keyCode)) {
@@ -126,6 +132,8 @@ final Map _codeMap = {
   KeyCode.COMMA: ',', //
   KeyCode.SLASH: '/', //
   KeyCode.BACKSLASH: '\\', //
+
+  KeyCode.ENTER: 'enter', //
 
   KeyCode.OPEN_SQUARE_BRACKET: '[', //
   KeyCode.CLOSE_SQUARE_BRACKET: ']', //

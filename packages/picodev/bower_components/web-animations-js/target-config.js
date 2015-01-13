@@ -50,7 +50,6 @@
       'src/property-names.js',
   ];
 
-
   var sharedSrc = [
       'src/timing-utilities.js',
       'src/normalize-keyframes.js'];

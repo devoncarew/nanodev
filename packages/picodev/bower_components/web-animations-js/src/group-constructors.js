@@ -77,5 +77,4 @@
     scope.awaitStartTime(player);
   };
 
-
 })(webAnimationsShared, webAnimationsMaxifill, webAnimationsTesting);

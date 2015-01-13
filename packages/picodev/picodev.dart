@@ -64,7 +64,6 @@ class PicoDev implements IDE {
     keys.bind('ctrl-f', 'editor-find');
     keys.bind('ctrl-l', 'editor-goto-line');
 
-    keys.bind('ctrl-/', 'global-search');
     keys.bind('ctrl-\\', 'global-search');
 
     keys.bind('shift-ctrl-[', 'editor-prev-tab');

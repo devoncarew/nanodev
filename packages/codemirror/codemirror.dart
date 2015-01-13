@@ -12,8 +12,6 @@ import 'src/js_utils.dart';
 
 // TODO: code completion (hint/show-hint.js)
 
-// TODO: displaying errors
-
 // TODO: find, replace
 
 /**
@@ -76,6 +74,13 @@ class CodeMirror extends ProxyHolder {
 
   static List<String> get COMMANDS => keys(_cm['commands']);
 
+  /**
+   * It contains a string that indicates the version of the library. This is a
+   * triple of integers "major.minor.patch", where patch is zero for releases,
+   * and something else (usually one) for dev snapshots.
+   */
+  static String get version => _cm['version'];
+
   static ModeInfo findModeByExtension(String ext)
       => new ModeInfo(_cm.callMethod('findModeByExtension', [ext]));
 
@@ -93,9 +98,9 @@ class CodeMirror extends ProxyHolder {
    * after doing CodeMirror.registerHelper("hint", "foo", myFoo), the value
    * CodeMirror.hint.foo will point to myFoo.
    */
-  static void registerHelper(String type, String name, dynamic value) {
+  static void registerHelper(String type, String mode, dynamic value) {
     // TODO: value may be a Function? always a function?
-    _cm.callMethod('registerHelper', [type, name, value]);
+    _cm.callMethod('registerHelper', [type, mode, value]);
   }
 
 //  /**
@@ -103,7 +108,7 @@ class CodeMirror extends ProxyHolder {
 //   * meaning that it will be included by getHelpers whenever the given predicate
 //   * returns true when called with the local mode and editor.
 //   */
-//  static void registerGlobalHelper(String type, String name, Function predicate,
+//  static void registerGlobalHelper(String type, String mode, Function predicate,
 //      dynamic value) {
 //    // predicate: fn(mode, CodeMirror)
 //    // TODO: value may be a Function? always a function?
@@ -338,26 +343,84 @@ class CodeMirror extends ProxyHolder {
   }
 
   /**
-   * Adds a line widget, an element shown below a line, spanning the whole of the
-   * editor's width, and moving the lines below it downwards. line should be
-   * either an integer or a line handle, and node should be a DOM node, which will
-   * be displayed below the given line. options, when given, should be an object
-   * that configures the behavior of the widget.
+   * Adds a line widget, an element shown below a line, spanning the whole of
+   * the editor's width, and moving the lines below it downwards. line should be
+   * either an integer or a line handle, and node should be a DOM node, which
+   * will be displayed below the given line.
+   *
+   * [coverGutter]: whether the widget should cover the gutter.
+   * [noHScroll]: whether the widget should stay fixed in the face of horizontal
+   * scrolling.
+   * [above]: causes the widget to be placed above instead of below the text of
+   * the line.
+   * [handleMouseEvents]: determines whether the editor will capture mouse and
+   * drag events occurring in this widget. Default is false—the events will be
+   * left alone for the default browser handler, or specific handlers on the
+   * widget, to capture.
+   * [insertAt]: by default, the widget is added below other widgets for the
+   * line. This option can be used to place it at a different position (zero for
+   * the top, N to put it after the Nth other widget). Note that this only has
+   * effect once, when the widget is created.
    */
-  LineWidget addLineWidget(int line, Element node) {
-    return new LineWidget(callArgs('addLineWidget', [line, node]));
+  LineWidget addLineWidget(int line, Element node, {
+    bool coverGutter,
+    bool noHScroll,
+    bool above,
+    bool handleMouseEvents,
+    int insertAt
+  }) {
+    Map options = {};
+
+    if (coverGutter != null) options['coverGutter'] = coverGutter;
+    if (noHScroll != null) options['noHScroll'] = noHScroll;
+    if (above != null) options['above'] = above;
+    if (handleMouseEvents != null) options['handleMouseEvents'] = handleMouseEvents;
+    if (insertAt != null) options['insertAt'] = insertAt;
+
+    return new LineWidget(
+        callArgs('addLineWidget', [line, node, jsify(options)]));
   }
+
+  /**
+   * Retrieves information about the token the current mode found before the
+   * given position.
+   *
+   * If [precise] is true, the token will be guaranteed to be accurate based on
+   * recent edits. If false or not specified, the token will use cached state
+   * information, which will be faster but might not be accurate if edits were
+   * recently made and highlighting has not yet completed.
+   */
+  Token getTokenAt(Position pos, [bool precise]) {
+    var r = precise == null
+        ? callArg('getTokenAt', pos.toProxy())
+        : callArgs('getTokenAt', [pos.toProxy(), precise]);
+    return new Token.fromProxy(r);
+  }
+
+  /**
+   * This is similar to getTokenAt, but collects all tokens for a given line
+   * into an array. It is much cheaper than repeatedly calling getTokenAt,
+   * which re-parses the part of the line before the token for every call.
+   */
+  List<Token> getLineTokens(int line, [bool precise]) {
+    var result = precise != null
+        ? callArgs('getLineTokens', [line, precise])
+        : callArg('getLineTokens', line);
+    if (result is List) {
+      return result.map((t) => new Token.fromProxy(t)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  /**
+   * This is a (much) cheaper version of getTokenAt useful for when you just
+   * need the type of the token at a given position, and no other information.
+   * Will return null for unstyled tokens, and a string, potentially containing
+   * multiple space-separated style names, otherwise.
+   */
+  String getTokenTypeAt(Position pos) => callArg('getTokenTypeAt', pos);
 }
-
-// TODO: Doc.markText
-
-// TODO: Doc.setBookmark
-
-// TODO: Doc.findMarks
-
-// TODO: Doc.findMarksAt
-
-// TODO: Doc.getAllMarks
 
 /**
  * Each editor is associated with an instance of [Doc], its document. A document
@@ -373,7 +436,8 @@ class Doc extends ProxyHolder {
     if (firstLineNumber == null) {
       return new JsObject(context['CodeMirror']['Doc'], [text, mode]);
     } else {
-      return new JsObject(context['CodeMirror']['Doc'], [text, mode, firstLineNumber]);
+      return new JsObject(
+          context['CodeMirror']['Doc'], [text, mode, firstLineNumber]);
     }
   }
 
@@ -396,13 +460,13 @@ class Doc extends ProxyHolder {
    * sub-views, or documents instantiated with a non-zero first line, it might
    * return other values.
    */
-  int firstCount() => call('firstCount');
+  int firstLine() => call('firstLine');
 
   /**
    * Get the last line of the editor. This will usually be doc.lineCount() - 1,
    * but for linked sub-views, it might return other values.
    */
-  int lastCount() => call('lastCount');
+  int lastLine() => call('lastLine');
 
   /**
    * Get the content of line n.
@@ -516,6 +580,167 @@ class Doc extends ProxyHolder {
   int indexFromPos(Position pos) => callArg('indexFromPos', pos.toProxy());
 
   /**
+   * Can be used to mark a range of text with a specific CSS class name.
+   *
+   * [className]: assigns a CSS class to the marked stretch of text.
+   * [inclusiveLeft]: determines whether text inserted on the left of the marker
+   * will end up inside or outside of it.
+   * [inclusiveRight]: like inclusiveLeft, but for the right side.
+   * [atomic]: atomic ranges act as a single unit when cursor movement is
+   * concerned — i.e. it is impossible to place the cursor inside of them. In
+   * atomic ranges, inclusiveLeft and inclusiveRight have a different meaning —
+   * they will prevent the cursor from being placed respectively directly before
+   * and directly after the range.
+   * [collapsed]: collapsed ranges do not show up in the display. Setting a
+   * range to be collapsed will automatically make it atomic.
+   * [clearOnEnter]: when enabled, will cause the mark to clear itself whenever
+   * the cursor enters its range. This is mostly useful for text - replacement
+   * widgets that need to 'snap open' when the user tries to edit them. The
+   * "clear" event fired on the range handle can be used to be notified when
+   * this happens.
+   * [clearWhenEmpty]: determines whether the mark is automatically cleared when
+   * it becomes empty. Default is true.
+   * [replacedWith]: use a given node to display this range. Implies both
+   * collapsed and atomic. The given DOM node must be an inline element (as
+   * opposed to a block element).
+   * [handleMouseEvents]: when replacedWith is given, this determines whether
+   * the editor will capture mouse and drag events occurring in this widget.
+   * Default is false—the events will be left alone for the default browser
+   * handler, or specific handlers on the widget, to capture.
+   * [readOnly]: a read-only span can, as long as it is not cleared, not be
+   * modified except by calling setValue to reset the whole document. Note:
+   * adding a read-only span currently clears the undo history of the editor,
+   * because existing undo events being partially nullified by read-only spans
+   * would corrupt the history (in the current implementation).
+   * [addToHistory]: when set to true (default is false), adding this marker
+   * will create an event in the undo history that can be individually undone
+   * (clearing the marker).
+   * [startStyle]: can be used to specify an extra CSS class to be applied to
+   * the leftmost span that is part of the marker.
+   * [endStyle]: equivalent to startStyle, but for the rightmost span.
+   * [css] a string of CSS to be applied to the covered text. For example
+   * "color: #fe3".
+   * [title]: when given, will give the nodes created for this span a HTML title
+   * attribute with the given value.
+   * [shared]: when the target document is linked to other documents, you can
+   * set shared to true to make the marker appear in all documents. By default,
+   * a marker appears only in its target document.
+   */
+  TextMarker markText(Position from, Position to, {
+    String className,
+    bool inclusiveLeft,
+    bool inclusiveRight,
+    bool atomic,
+    bool collapsed,
+    bool clearOnEnter,
+    bool clearWhenEmpty,
+    Element replacedWith,
+    bool handleMouseEvents,
+    bool readOnly,
+    bool addToHistory,
+    String startStyle,
+    String endStyle,
+    String css,
+    String title,
+    bool shared
+  }) {
+    Map options = {};
+
+    if (className != null) options['className'] = className;
+    if (inclusiveLeft != null) options['inclusiveLeft'] = inclusiveLeft;
+    if (inclusiveRight != null) options['inclusiveRight'] = inclusiveRight;
+    if (atomic != null) options['atomic'] = atomic;
+    if (collapsed != null) options['collapsed'] = collapsed;
+    if (clearOnEnter != null) options['clearOnEnter'] = clearOnEnter;
+    if (clearWhenEmpty != null) options['clearWhenEmpty'] = clearWhenEmpty;
+    if (replacedWith != null) options['replacedWith'] = replacedWith;
+    if (handleMouseEvents != null) options['handleMouseEvents'] = handleMouseEvents;
+    if (readOnly != null) options['readOnly'] = readOnly;
+    if (addToHistory != null) options['addToHistory'] = addToHistory;
+    if (startStyle != null) options['startStyle'] = startStyle;
+    if (endStyle != null) options['endStyle'] = endStyle;
+    if (css != null) options['css'] = css;
+    if (title != null) options['title'] = title;
+    if (shared != null) options['shared'] = shared;
+
+    return new TextMarker(
+        callArgs('markText', [from.toProxy(), to.toProxy(), jsify(options)]));
+  }
+
+  /**
+   * Inserts a bookmark, a handle that follows the text around it as it is being
+   * edited, at the given position. A bookmark has two methods find() and
+   * clear(). The first returns the current position of the bookmark, if it is
+   * still in the document, and the second explicitly removes the bookmark.
+   *
+   * [widget] can be used to display a DOM node at the current location of the
+   * bookmark (analogous to the replacedWith option to markText). [insertLeft]:
+   * by default, text typed when the cursor is on top of the bookmark will end
+   * up to the right of the bookmark. Set this option to true to make it go to
+   * the left instead. [shared]: when the target document is linked to other
+   * documents, you can set shared to true to make the marker appear in all
+   * documents. By default, a marker appears only in its target document.
+   */
+  TextMarker setBookmark(Position pos,
+      {Element widget, bool insertLeft, bool shared}) {
+    Map options = {};
+
+    if (widget != null) options['widget'] = widget;
+    if (insertLeft != null) options['insertLeft'] = insertLeft;
+    if (shared != null) options['shared'] = shared;
+
+    return new TextMarker(
+        callArgs('setBookmark', [pos.toProxy(), jsify(options)]));
+  }
+
+  /**
+   * Returns an array of all the bookmarks and marked ranges found between the
+   * given positions.
+   */
+  List<TextMarker> findMarks(Position from, Position to) {
+    var result = callArgs('findMarks', [from.toProxy(), to.toProxy()]);
+    if (result is! List) return [];
+    return result.map((mark) => new TextMarker(mark)).toList();
+  }
+
+  /**
+   * Returns an array of all the bookmarks and marked ranges present at the
+   * given position.
+   */
+  List<TextMarker> findMarksAt(Position pos) {
+    var result = callArg('findMarksAt', pos.toProxy());
+    if (result is! List) return [];
+    return result.map((mark) => new TextMarker(mark)).toList();
+  }
+
+  /**
+   * Returns an array containing all marked ranges in the document.
+   */
+  List<TextMarker> getAllMarks() {
+    var result = call('getAllMarks');
+    if (result is! List) return [];
+    return result.map((mark) => new TextMarker(mark)).toList();
+  }
+
+  /**
+   * Gets the (outer) mode object for the editor. Note that this is distinct
+   * from getOption("mode"), which gives you the mode specification, rather than
+   * the resolved, instantiated mode object.
+   *
+   * The returned mode is a `JsObject`.
+   */
+  dynamic getMode() => call('getMode');
+
+  /**
+   * Gets the inner mode at a given position. This will return the same as
+   * getMode for simple modes, but will return an inner mode for nesting modes
+   * (such as htmlmixed).
+   *
+   * The returned mode is a `JsObject`.
+   */
+  dynamic getModeAt(Position pos) => callArg('getMode', pos.toProxy());
+
+  /**
    * Fired whenever a change occurs to the document. `changeObj` has a similar
    * type as the object passed to the editor's "change" event.
    */
@@ -600,10 +825,21 @@ class TextMarker extends ProxyHolder {
 
   /**
    * Returns a {from, to} object (both holding document positions), indicating
-   * the current position of the marked range, or undefined if the marker is no
+   * the current position of the marked range, or `null` if the marker is no
    * longer in the document.
    */
-  dynamic find() => call('find');
+  List<Position> find() {
+    var result = call('find');
+    if (result is! JsObject) return null;
+    try {
+      return [
+        new Position.fromProxy(result['from']),
+        new Position.fromProxy(result['to'])
+      ];
+    } catch (e) {
+      return null;
+    }
+  }
 
   /**
    * Call if you've done something that might change the size of the marker (for
@@ -630,6 +866,24 @@ class LineWidget extends ProxyHolder {
    * that contains the widget.
    */
   void changed() => call('changed');
+}
+
+class Token {
+  /// The character (on the given line) at which the token starts.
+  final int start;
+  /// The character at which the token ends.
+  final int end;
+  /// The token's string.
+  final String string;
+  /// The token type the mode assigned to the token, such as "keyword" or
+  /// "comment" (may also be null).
+  final String type;
+  /// The mode's state at the end of this token.
+  final JsObject state;
+
+  Token.fromProxy(var obj) :
+    start = obj['start'], end = obj['end'], string = obj['string'],
+    type = obj['type'], state = obj['state'];
 }
 
 /**

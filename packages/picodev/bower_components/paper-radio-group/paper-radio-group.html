@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!--
 `paper-radio-group` allows user to select only one radio button from a set.
-Checking one radio button that belongs to a radio group unchecks any 
+Checking one radio button that belongs to a radio group unchecks any
 previously checked radio button within the same group. Use
 `selected` to get or set the selected radio button.
 
@@ -40,26 +40,26 @@ information about `paper-radio-button`.
 
     <core-a11y-keys target="{{}}" keys="up left" on-keys-pressed="{{selectPrevious}}"></core-a11y-keys>
     <core-a11y-keys target="{{}}" keys="down right" on-keys-pressed="{{selectNext}}"></core-a11y-keys>
-  
+
     <style>
-    
+
       :host {
         display: inline-block;
       }
-  
+
       polyfill-next-selector { content: ':host > *'; }
       ::content > * {
         padding: 12px;
       }
-    
+
     </style>
-  
+
     <shadow></shadow>
-    
+
   </template>
-  
+
   <script>
-  
+
     Polymer('paper-radio-group', {
       nextIndex: function(index) {
         var items = this.items;
@@ -93,9 +93,9 @@ information about `paper-radio-button`.
       },
       selectedAttribute: 'checked',
       activateEvent: 'change'
-      
+
     });
-  
+
   </script>
-  
+
 </polymer-element>

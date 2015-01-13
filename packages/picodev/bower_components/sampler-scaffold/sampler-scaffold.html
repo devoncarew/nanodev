@@ -19,10 +19,10 @@ Exampler:
       <core-item label="Radio" url="demos/radio.html"></core-item>
       <core-item label="Range" url="demos/range.html"></core-item>
       <core-item label="Color" url="demos/color.html"></core-item>
-    
+
     </sampler-scaffold>
 
-Use `label` to set the sampler label and `responsiveWidth` to change the layout 
+Use `label` to set the sampler label and `responsiveWidth` to change the layout
 of the scaffold.
 
 @element sampler-scaffold
@@ -56,7 +56,7 @@ of the scaffold.
         </content>
 
       </core-toolbar>
-      
+
       <div id="card" on-transitionend="{{cardTransitionDone}}" hidden?="{{!item}}">
 
         <div class="element-label" hidden?="{{narrow}}">{{item.label}}</div>
@@ -64,9 +64,9 @@ of the scaffold.
         <div id="frameContainer">
           <iframe id="frame" on-load="{{frameLoaded}}"></iframe>
         </div>
-        
+
       </div>
-      
+
     </core-header-panel>
 
     <core-header-panel drawer>
@@ -74,7 +74,7 @@ of the scaffold.
       <core-toolbar class="{{ {'medium-tall' : !narrow} | tokenList }}">
         <div class="bottom main-label fit">{{label}}</div>
       </core-toolbar>
-      
+
       <core-menu id="menu" on-core-select="{{menuSelect}}">
         <content></content>
       </core-menu>
@@ -87,36 +87,36 @@ of the scaffold.
 <script>
 
   Polymer('sampler-scaffold', {
-    
+
     /**
-     * When the browser window size is smaller than the `responsiveWidth`, 
-     * `sampler-scaffold` changes to a narrow layout. In narrow layout, 
+     * When the browser window size is smaller than the `responsiveWidth`,
+     * `sampler-scaffold` changes to a narrow layout. In narrow layout,
      * the drawer will be stacked on top of the main panel.
      *
      * @attribute responsiveWidth
      * @type string
      */
     responsiveWidth: '860px',
-    
+
     /**
      * Sampler label.
      *
      * @attribute label
      * @type string
      */
-    
+
     ready: function() {
       this.boundResizeFrame = this.resizeFrame.bind(this);
       window.addEventListener('resize', this.updateFrameHeight.bind(this));
       window.addEventListener('hashchange', this.parseLocationHash.bind(this));
     },
-    
+
     domReady: function() {
       this.async(function() {
         this.parseLocationHash();
       }, null, 300);
     },
-    
+
     parseLocationHash: function() {
       var route = window.location.hash.slice(1);
       for (var i = 0, item; item = this.$.menu.items[i]; i++) {
@@ -127,7 +127,7 @@ of the scaffold.
       }
       this.$.menu.selected = this.$.menu.selected || 0;
     },
-    
+
     menuSelect: function(e, detail) {
       if (detail.isSelected) {
         this.item = detail.item;
@@ -145,7 +145,7 @@ of the scaffold.
         }
       }
     },
-    
+
     animateCard: function() {
       this.$.card.classList.remove('move-up');
       this.$.card.style.display = 'none';
@@ -158,24 +158,24 @@ of the scaffold.
         }, null, 300);
       });
     },
-    
+
     moveCard: function(y) {
       var s = this.$.card.style;
-      s.webkitTransform = s.transform = 
+      s.webkitTransform = s.transform =
           y ? 'translate3d(0, ' + y + 'px,0)' : '';
     },
-    
+
     cardTransitionDone: function() {
       if (this.$.card.classList.contains('move-up')) {
         this.$.card.classList.remove('move-up');
         this.updateFrameHeight();
       }
     },
-    
+
     togglePanel: function() {
       this.$.drawerPanel.togglePanel();
     },
-    
+
     frameLoaded: function() {
       if (!this.item) {
         return;
@@ -192,7 +192,7 @@ of the scaffold.
         this.updateFrameHeight();
       });
     },
-    
+
     updateFrameHeight: function() {
       var frame = this.$.frame;
       var doc = frame.contentDocument;
@@ -212,12 +212,12 @@ of the scaffold.
         this.$.mainHeaderPanel.$.mainContainer.scrollTop = pos;
       }
     },
-    
+
     viewSourceAction: function() {
-      window.open('view-source:' + this.$.frame.contentWindow.location.href, 
+      window.open('view-source:' + this.$.frame.contentWindow.location.href,
           this.item.tag);
     }
-    
+
   });
 
 </script>

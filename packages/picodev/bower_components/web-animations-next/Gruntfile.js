@@ -169,7 +169,6 @@ module.exports = function(grunt) {
     sauce: testTargets,
   });
 
-
   grunt.task.registerMultiTask('test', 'Run <target> tests under Karma', function() {
     var done = this.async();
     var karmaConfig = require('karma/lib/config').parseConfig(require('path').resolve('test/karma-config.js'), {});

@@ -23,8 +23,6 @@
  * parameters they are called with see testharness.js
  */
 
-
-
 var metadata_generator = {
 
     currentMetadata: {},

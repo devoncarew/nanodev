@@ -8,15 +8,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <!--
-`core-list` displays a virtual, 'infinite' list. The template inside the 
+`core-list` displays a virtual, 'infinite' list. The template inside the
 `core-list` element represents the DOM to create for each list item. The
 `data` property specifies an array of list item data.
 
 For performance reasons, not every item in the list is rendered at once; instead
 a small subset of actual template elements (enough to fill the viewport) are
 rendered and reused as the user scrolls.  As such, it is important that all
-state of the list template be bound to the model driving it, since the view 
-may be reused with a new model at any time.  Particularly, any state that 
+state of the list template be bound to the model driving it, since the view
+may be reused with a new model at any time.  Particularly, any state that
 may change as the result of a user interaction with the list item must be
 bound to the model to avoid view state inconsistency.
 
@@ -62,7 +62,7 @@ models (for multi-selection) is published to the `selection` property.
 
 ### Grouping **(experimental)**
 
-`core-list` supports showing dividers between groups of data by setting the 
+`core-list` supports showing dividers between groups of data by setting the
 `groups` property to an array containing group information.  An element with
 a `divider` attribute set should be supplied a the top level of the template
 next to the template item to provide the divider template.  The template model
@@ -81,11 +81,11 @@ contains extra fields when `groups` is used, as follows:
       }
     }
 
-Groups may be specified one of two ways (users should choose the data format 
-that closest matches their source data, to avoid the performance impact of 
+Groups may be specified one of two ways (users should choose the data format
+that closest matches their source data, to avoid the performance impact of
 needing totransform data to fit the required structure):
 
-1. Flat data array - In this scenario, the `data` array is provided as 
+1. Flat data array - In this scenario, the `data` array is provided as
 a flat list of models.  Group lengths are determined by the `length` property
 on each group object, with the `data` property providing user-specified group
 data, typically for binding to dividers.  For example:
@@ -144,7 +144,7 @@ For example:
 `core-list` supports a grid layout in addition to linear layout by setting
 the `grid` attribute.  In this case, the list template item must have both fixed
 width and height (e.g. via CSS), with the desired width of each grid item
-specified by the `width` attribute.  Based on this, the number of items 
+specified by the `width` attribute.  Based on this, the number of items
 per row are determined automatically based on the size of the list viewport.
 
 ### Non-native scrollers **(experimental)**
@@ -153,7 +153,7 @@ By default, core-list assumes the `scrollTarget` (if set) is a native scrollable
 element (e.g. `overflow:auto` or `overflow:y`) that fires the `scroll` event and
 whose scroll position can be read/set via the `scrollTop` property.
 `core-list` provides experimental support for setting `scrollTarget`
-to a custom scroller element (e.g. a JS-based scroller) as long as it provides 
+to a custom scroller element (e.g. a JS-based scroller) as long as it provides
 the following abstract API:
 
   - `getScrollTop()` - returns the current scroll position
@@ -180,11 +180,11 @@ the following abstract API:
   var IOS_TOUCH_SCROLLING = IOS && IOS[1] >= 8;
 
   Polymer(Polymer.mixin({
-    
+
     publish: {
       /**
        * Fired when an item element is tapped.
-       * 
+       *
        * @event core-activate
        * @param {Object} detail
        *   @param {Object} detail.item the item element
@@ -233,7 +233,7 @@ the following abstract API:
       groups: null,
 
       /**
-       * 
+       *
        * An optional element on which to listen for scroll events.
        *
        * @attribute scrollTarget
@@ -243,7 +243,7 @@ the following abstract API:
       scrollTarget: null,
 
       /**
-       * 
+       *
        * When true, tapping a row will select the item, placing its data model
        * in the set of selected items retrievable via the `selection` property.
        *
@@ -257,7 +257,7 @@ the following abstract API:
       selectionEnabled: true,
 
       /**
-       * 
+       *
        * Set to true to support multiple selection.  Note, existing selection
        * state is maintained only when changing `multi` from `false` to `true`;
        * it is cleared when changing from `true` to `false`.
@@ -269,7 +269,7 @@ the following abstract API:
       multi: false,
 
       /**
-       * 
+       *
        * Data record (or array of records, if `multi: true`) corresponding to
        * the currently selected set of items.
        *
@@ -280,7 +280,7 @@ the following abstract API:
        selection: null,
 
       /**
-       * 
+       *
        * When true, the list is rendered as a grid.  Grid items must be fixed
        * height and width, with the width of each item specified in the `width`
        * property.
@@ -292,7 +292,7 @@ the following abstract API:
        grid: false,
 
       /**
-       * 
+       *
        * When `grid` is used, `width` determines the width of each grid item.
        * This property has no meaning when not in `grid` mode.
        *
@@ -306,7 +306,7 @@ the following abstract API:
        * The approximate height of a list item, in pixels. This is used only for determining
        * the number of physical elements to render based on the viewport size
        * of the list.  Items themselves may vary in height between each other
-       * depending on their data model.  There is typically no need to adjust 
+       * depending on their data model.  There is typically no need to adjust
        * this value unless the average size is much larger or smaller than the default.
        *
        * @attribute height
@@ -336,7 +336,7 @@ the following abstract API:
 
     // Local cache of scrollTop
     _scrollTop: 0,
-    
+
     observe: {
       'isAttached data grid width template scrollTarget': 'initialize',
       'multi selectionEnabled': '_resetSelection'
@@ -396,8 +396,8 @@ the following abstract API:
     },
 
     _resetSelection: function() {
-      if (((this._oldMulti != this.multi) && !this.multi) || 
-          ((this._oldSelectionEnabled != this.selectionEnabled) && 
+      if (((this._oldMulti != this.multi) && !this.multi) ||
+          ((this._oldSelectionEnabled != this.selectionEnabled) &&
             !this.selectionEnabled)) {
         this._clearSelection();
         this.refresh();
@@ -474,7 +474,7 @@ the following abstract API:
         return;
       }
 
-      // TODO(kschaaf): Checking arguments.length currently the only way to 
+      // TODO(kschaaf): Checking arguments.length currently the only way to
       // know that the array was mutated as opposed to newly assigned; need
       // a better API for Polymer observers
       var splices;
@@ -654,7 +654,7 @@ the following abstract API:
       if (!groupUpdate) {
         this.updateGroupObservers(splices);
       }
-      
+
       // Add physical items up to a max based on data length, viewport size, and extra item overhang
       var currentCount = this._physicalCount || 0;
       var height = this._target.offsetHeight;
@@ -714,7 +714,7 @@ the following abstract API:
         physicalDatum.model = virtualDatum;
         physicalDatum.index = virtualIndex;
         physicalDatum.physicalIndex = physicalIndex;
-        physicalDatum.selected = this.selectionEnabled && virtualDatum ? 
+        physicalDatum.selected = this.selectionEnabled && virtualDatum ?
             this._selectedData.get(virtualDatum) : null;
         // Set group-related fields
         if (this._grouped) {
@@ -749,7 +749,7 @@ the following abstract API:
         // iOS sends multiple scroll events per rAF
         // Align work to rAF to reduce overhead & artifacts
         if (!this._raf) {
-          this._raf = requestAnimationFrame(function() { 
+          this._raf = requestAnimationFrame(function() {
             this._raf = null;
             this.refresh();
           }.bind(this));
@@ -945,10 +945,10 @@ the following abstract API:
              (this._dir < 0 && this._scrollTop < flipBound))) {
           var flipSize = Math.abs(this._scrollTop - flipBound);
           for (i=0; (i<this._physicalCount) && (flipSize > 0) &&
-              ((this._dir < 0 && this._virtualStart > 0) || 
+              ((this._dir < 0 && this._virtualStart > 0) ||
                (this._dir > 0 && this._virtualStart < this._virtualCount-this._physicalCount)); i++) {
-            var idx = this._virtualToPhysical(this._dir > 0 ? 
-              this._virtualStart : 
+            var idx = this._virtualToPhysical(this._dir > 0 ?
+              this._virtualStart :
               this._virtualStart + this._physicalCount -1);
             var size = this._physicalSizes[idx];
             flipSize -= size;
@@ -988,7 +988,7 @@ the following abstract API:
         virtualIndex = this._virtualStart + i;
         physicalIndex = this._virtualToPhysical(virtualIndex);
         // Update physical item with new user data and list metadata
-        needsReposition = 
+        needsReposition =
           this._updateItemData(force, physicalIndex, virtualIndex, groupIndex, groupItemIndex) || needsReposition;
         // Increment
         groupItemIndex++;
@@ -1117,7 +1117,7 @@ the following abstract API:
         // Gambit: only select the item if the tap wasn't on a focusable child
         // of the list (since anything with its own action should be focusable
         // and not result in result in list selection).  To check this, we
-        // asynchronously check that shadowRoot.activeElement is null, which 
+        // asynchronously check that shadowRoot.activeElement is null, which
         // means the tapped item wasn't focusable. On polyfill where
         // activeElement doesn't follow the data-hinding part of the spec, we
         // can check that document.activeElement is the list itself, which will
@@ -1125,17 +1125,17 @@ the following abstract API:
         // the list focusable (tabindex="-1") for this purpose.  Note we also
         // allow the list items themselves to be focusable if desired, so those
         // are excluded as well.
-        var active = window.ShadowDOMPolyfill ? 
+        var active = window.ShadowDOMPolyfill ?
             wrap(document.activeElement) : this.shadowRoot.activeElement;
-        if (active && (active != this) && (active.parentElement != this) && 
+        if (active && (active != this) && (active.parentElement != this) &&
             (document.activeElement != document.body)) {
           return;
         }
         // Unfortunately, Safari does not focus certain form controls via mouse,
         // so we also blacklist input, button, & select
         // (https://bugs.webkit.org/show_bug.cgi?id=118043)
-        if ((p[0].localName == 'input') || 
-            (p[0].localName == 'button') || 
+        if ((p[0].localName == 'input') ||
+            (p[0].localName == 'button') ||
             (p[0].localName == 'select')) {
           return;
         }
@@ -1169,7 +1169,7 @@ the following abstract API:
      * Select the list item at the given index.
      *
      * @method selectItem
-     * @param {number} index 
+     * @param {number} index
      */
     selectItem: function(index) {
       if (!this.selectionEnabled) {
@@ -1185,8 +1185,8 @@ the following abstract API:
      * Set the selected state of the list item at the given index.
      *
      * @method setItemSelected
-     * @param {number} index 
-     * @param {boolean} isSelected 
+     * @param {number} index
+     * @param {boolean} isSelected
      */
     setItemSelected: function(index, isSelected) {
       var data = this.data[index];
@@ -1268,7 +1268,7 @@ the following abstract API:
      * within a group, use the `scrollToGroupItem` API.
      *
      * @method scrollToItem
-     * @param {number} index 
+     * @param {number} index
      */
     scrollToItem: function(index) {
       this.scrollToGroupItem(null, index);
@@ -1278,7 +1278,7 @@ the following abstract API:
      * Scroll to a group.
      *
      * @method scrollToGroup
-     * @param {number} group 
+     * @param {number} group
      */
     scrollToGroup: function(group) {
       this.scrollToGroupItem(group, 0);
@@ -1288,8 +1288,8 @@ the following abstract API:
      * Scroll to an item within a group.
      *
      * @method scrollToGroupItem
-     * @param {number} group 
-     * @param {number} index 
+     * @param {number} group
+     * @param {number} index
      */
     scrollToGroupItem: function(group, index) {
       if (group != null) {

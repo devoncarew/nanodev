@@ -41,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       -webkit-user-select: none;
       font-family: sans-serif;
     }
-    
+
     list-test {
       display: block;
       height: 100%;
@@ -159,11 +159,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
 
     <core-splitter></core-splitter>
-  
+
     <div layout vertical flex>
       <core-toolbar class="toolbar">Photos</core-toolbar>
       <div id="photos" style="overflow:auto;" flex>
-        <core-scroll-threshold id="threshold" scrollTarget="{{$.photos}}" 
+        <core-scroll-threshold id="threshold" scrollTarget="{{$.photos}}"
           lowerThreshold="1000" on-lower-trigger="{{loadMore}}">
         </core-scroll-threshold>
         <core-list id="photosList" data="{{photosData}}" scrollTarget="{{$.photos}}" grid width="216">
@@ -214,8 +214,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     load: function(moreCount) {
       if (this.photosPage > 0) {
         var ajax = document.createElement('core-ajax');
-        ajax.url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + 
-          this.apiKey + '&safe_search=1&sort=interestingness-desc&text=' + 
+        ajax.url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' +
+          this.apiKey + '&safe_search=1&sort=interestingness-desc&text=' +
           encodeURIComponent(this.searchText) + '&page=' + this.photosPage + "&format=json&per_page=" + this.perPage;
         ajax.addEventListener('core-response', function(e) {
           var data = this.photosData;
@@ -233,7 +233,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
   });
-})();  
+})();
 </script>
 </polymer-element>
 

@@ -24,11 +24,11 @@ to be displayed.  After any work is done, the user must then clear the threshold
 calling the `clearUpper` or `clearLower` methods on this element, after which it will
 begin listening again for the scroll position to reach the threshold again (assuming
 the content in the) scrollable region has grown.  If the user no longer wishes to receive
-events (e.g. all data has been exhausted), the 
+events (e.g. all data has been exhausted), the
 
 Example:
 
-    <core-scroll-threshold id="threshold" lowerThreshold="500" 
+    <core-scroll-threshold id="threshold" lowerThreshold="500"
       on-lower-triggered="{{loadMore}}" lowerTriggered="{{spinnerShouldShow}}">
     </scroll-threshold>
 
@@ -39,7 +39,7 @@ Example:
         this.$.threshold.clearLower();
       }.bind(this));
     }
-    
+
 @group Polymer Core Elements
 @element core-scroll-threshold
 @homepage github.io
@@ -52,7 +52,7 @@ Example:
 <script>
 
   Polymer({
-    
+
     publish: {
 
       /**
@@ -151,7 +151,7 @@ Example:
       }
       if (!this.lowerThreshold) {
         this.lowerTriggered = false;
-      }      
+      }
     },
 
     checkThreshold: function(e) {

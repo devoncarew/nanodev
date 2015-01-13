@@ -206,9 +206,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </core-list>
 
         <core-splitter allowOverflow></core-splitter>
-      
+
         <div id="splitterPhotosScroller" style="overflow:auto;" flex>
-          <core-scroll-threshold id="threshold" scrollTarget="{{$.splitterPhotosScroller}}" 
+          <core-scroll-threshold id="threshold" scrollTarget="{{$.splitterPhotosScroller}}"
             lowerThreshold="1000" on-lower-trigger="{{loadMore}}">
           </core-scroll-threshold>
           <core-list id="splitterPhotos" data="{{photosData}}" scrollTarget="{{$.splitterPhotosScroller}}" grid width="216">
@@ -277,9 +277,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </template>
           </core-list>
         </core-scroll-header-panel>
-      
+
         <div id="tabsPhotosScroller" style="overflow:auto;" fit>
-          <core-scroll-threshold id="threshold" scrollTarget="{{$.tabsPhotosScroller}}" 
+          <core-scroll-threshold id="threshold" scrollTarget="{{$.tabsPhotosScroller}}"
             lowerThreshold="1000" on-lower-trigger="{{loadMore}}">
           </core-scroll-threshold>
           <core-list id="tabsPhotos" data="{{photosData}}" scrollTarget="{{$.tabsPhotosScroller}}" grid width="216">
@@ -336,7 +336,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-action-dialog>
 
         <paper-action-dialog class="full-dialog" heading="Photos" id="photosDialog" layered="false" transition="core-transition-center">
-          <core-scroll-threshold id="threshold" scrollTarget="{{$.photosDialog.sizingTarget}}" 
+          <core-scroll-threshold id="threshold" scrollTarget="{{$.photosDialog.sizingTarget}}"
             lowerThreshold="1000" on-lower-trigger="{{loadMore}}">
           </core-scroll-threshold>
           <core-list id="dialogPhotos" data="{{photosData}}" scrollTarget="{{$.photosDialog.sizingTarget}}" grid width="216">
@@ -392,8 +392,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     load: function(moreCount) {
       if (this.photosPage > 0) {
         var ajax = document.createElement('core-ajax');
-        ajax.url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + 
-          this.apiKey + '&safe_search=1&sort=interestingness-desc&text=' + 
+        ajax.url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' +
+          this.apiKey + '&safe_search=1&sort=interestingness-desc&text=' +
           encodeURIComponent(this.searchText) + '&page=' + this.photosPage + "&format=json&per_page=" + this.perPage;
         ajax.addEventListener('core-response', function(e) {
           var data = this.photosData;
@@ -420,7 +420,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.$[e.target.dataset.dialog].open();
     }
   });
-})();  
+})();
 </script>
 </polymer-element>
 

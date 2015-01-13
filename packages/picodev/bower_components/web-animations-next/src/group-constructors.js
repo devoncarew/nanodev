@@ -78,5 +78,4 @@
     player._updateChildren();
   };
 
-
 })(webAnimationsShared, webAnimationsNext, webAnimationsTesting);

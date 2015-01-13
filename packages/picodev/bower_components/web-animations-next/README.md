@@ -82,7 +82,7 @@ interpolation/decomposition.
 |------------------------|:--------------:|:-------------------:|:------------------------:|
 |Size (gzipped)          | 12.5kb         | 14kb                | 10.5kb                   |
 |Element.animate         | ✔             | ✔                  | ✔                       |
-|Timing input (easings, duration, fillMode, etc.) for animations| ✔ | ✔ | ✔             | 
+|Timing input (easings, duration, fillMode, etc.) for animations| ✔ | ✔ | ✔             |
 |Playback control        | ✔             | ✔                  | ✔                       |
 |Support for animating lengths, transforms and opacity| ✔ | ✔ | ✔                       |
 |Support for Animating other CSS properties| ✔ | ✔            | 🚫                       |

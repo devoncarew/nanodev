@@ -514,7 +514,6 @@ policies and contribution forms [3].
     }
     expose(assert_class_string, "assert_class_string");
 
-
     function _assert_own_property(name) {
         return function(object, property_name, description)
         {
@@ -1705,8 +1704,6 @@ policies and contribution forms [3].
 
         return element;
     }
-
-
 
     function make_dom(template, substitutions, output_document)
     {

@@ -2,144 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Support for writing Dart unit tests.
-///
-/// For information on installing and importing this library, see the
-/// [unittest package on pub.dartlang.org]
-/// (http://pub.dartlang.org/packages/unittest).
-///
-/// **See also:**
-/// [Unit Testing with Dart]
-/// (http://www.dartlang.org/articles/dart-unit-tests/)
-///
-/// ##Concepts
-///
-///  * __Tests__: Tests are specified via the top-level function [test], they can be
-///    organized together using [group].
-///
-///  * __Checks__: Test expectations can be specified via [expect]
-///
-///  * __Matchers__: [expect] assertions are written declaratively using the
-///    [Matcher] class.
-///
-///  * __Configuration__: The framework can be adapted by setting
-///    [unittestConfiguration] with a [Configuration]. See the other libraries
-///    in the `unittest` package for alternative implementations of
-///    [Configuration] including `compact_vm_config.dart`, `html_config.dart`
-///    and `html_enhanced_config.dart`.
-///
-/// ##Examples
-///
-/// A trivial test:
-///
-///     import 'package:unittest/unittest.dart';
-///     main() {
-///       test('this is a test', () {
-///         int x = 2 + 3;
-///         expect(x, equals(5));
-///       });
-///     }
-///
-/// Multiple tests:
-///
-///     import 'package:unittest/unittest.dart';
-///     main() {
-///       test('this is a test', () {
-///         int x = 2 + 3;
-///         expect(x, equals(5));
-///       });
-///       test('this is another test', () {
-///         int x = 2 + 3;
-///         expect(x, equals(5));
-///       });
-///     }
-///
-/// Multiple tests, grouped by category:
-///
-///     import 'package:unittest/unittest.dart';
-///     main() {
-///       group('group A', () {
-///         test('test A.1', () {
-///           int x = 2 + 3;
-///           expect(x, equals(5));
-///         });
-///         test('test A.2', () {
-///           int x = 2 + 3;
-///           expect(x, equals(5));
-///         });
-///       });
-///       group('group B', () {
-///         test('this B.1', () {
-///           int x = 2 + 3;
-///           expect(x, equals(5));
-///         });
-///       });
-///     }
-///
-/// Asynchronous tests: if callbacks expect between 0 and 6 positional
-/// arguments, [expectAsync] will wrap a function into a new callback and will
-/// not consider the test complete until that callback is run. A count argument
-/// can be provided to specify the number of times the callback should be called
-/// (the default is 1).
-///
-///     import 'dart:async';
-///     import 'package:unittest/unittest.dart';
-///     void main() {
-///       test('callback is executed once', () {
-///         // wrap the callback of an asynchronous call with [expectAsync] if
-///         // the callback takes 0 arguments...
-///         var timer = Timer.run(expectAsync(() {
-///           int x = 2 + 3;
-///           expect(x, equals(5));
-///         }));
-///       });
-///
-///       test('callback is executed twice', () {
-///         var callback = expectAsync(() {
-///           int x = 2 + 3;
-///           expect(x, equals(5));
-///         }, count: 2); // <-- we can indicate multiplicity to [expectAsync]
-///         Timer.run(callback);
-///         Timer.run(callback);
-///       });
-///     }
-///
-/// There may be times when the number of times a callback should be called is
-/// non-deterministic. In this case a dummy callback can be created with
-/// expectAsync((){}) and this can be called from the real callback when it is
-/// finally complete.
-///
-/// A variation on this is [expectAsyncUntil], which takes a callback as the
-/// first parameter and a predicate function as the second parameter. After each
-/// time the callback is called, the predicate function will be called. If it
-/// returns `false` the test will still be considered incomplete.
-///
-/// Test functions can return [Future]s, which provide another way of doing
-/// asynchronous tests. The test framework will handle exceptions thrown by
-/// the Future, and will advance to the next test when the Future is complete.
-///
-///     import 'dart:async';
-///     import 'package:unittest/unittest.dart';
-///     void main() {
-///       test('test that time has passed', () {
-///         var duration = const Duration(milliseconds: 200);
-///         var time = new DateTime.now();
-///
-///         return new Future.delayed(duration).then((_) {
-///           var delta = new DateTime.now().difference(time);
-///
-///           expect(delta, greaterThanOrEqualTo(duration));
-///         });
-///       });
-///     }
 library unittest;
 
 import 'dart:async';
 import 'dart:collection';
 import 'dart:isolate';
 
-import 'package:matcher/matcher.dart' show DefaultFailureHandler,
-    configureExpectFailureHandler, TestFailure, wrapAsync;
+import 'package:matcher/matcher.dart'
+    show
+        DefaultFailureHandler,
+        configureExpectFailureHandler,
+        TestFailure,
+        wrapAsync;
 export 'package:matcher/matcher.dart';
 
 import 'src/utils.dart';
@@ -194,9 +68,11 @@ Configuration get unittestConfiguration {
 void set unittestConfiguration(Configuration value) {
   if (!identical(_config, value)) {
     if (_config != null) {
-      throw new StateError('unittestConfiguration has already been set');
+      logMessage('Warning: The unittestConfiguration has already been set. New '
+          'unittestConfiguration ignored.');
+    } else {
+      _config = value;
     }
-    _config = value;
   }
 }
 
@@ -217,11 +93,10 @@ List<TestCase> get testCases =>
 const int BREATH_INTERVAL = 200;
 
 /// [TestCase] currently being executed.
-TestCase get currentTestCase =>
-    (_environment.currentTestCaseIndex >= 0 &&
-     _environment.currentTestCaseIndex < testCases.length)
-        ? testCases[_environment.currentTestCaseIndex]
-        : null;
+TestCase get currentTestCase => (_environment.currentTestCaseIndex >= 0 &&
+        _environment.currentTestCaseIndex < testCases.length)
+    ? testCases[_environment.currentTestCaseIndex]
+    : null;
 
 /* Test case result strings. */
 // TODO(gram) we should change these constants to use a different string
@@ -242,8 +117,8 @@ void test(String spec, TestFunction body) {
   _requireNotRunning();
   ensureInitialized();
   if (!_environment.soloTestSeen || _environment.soloNestingLevel > 0) {
-    var testcase = new TestCase._internal(testCases.length + 1, _fullSpec(spec),
-        body);
+    var testcase =
+        new TestCase._internal(testCases.length + 1, _fullSpec(spec), body);
     _testCases.add(testcase);
   }
 }
@@ -304,7 +179,7 @@ void solo_test(String spec, TestFunction body) {
 /// generated reason.
 Function expectAsync(Function callback,
     {int count: 1, int max: 0, String id, String reason}) =>
-  new _SpreadArgsHelper(callback, count, max, id, reason).func;
+        new _SpreadArgsHelper(callback, count, max, id, reason).func;
 
 /// Indicate that [callback] is expected to be called until [isDone] returns
 /// true.
@@ -322,7 +197,7 @@ Function expectAsync(Function callback,
 /// generated reason.
 Function expectAsyncUntil(Function callback, bool isDone(),
     {String id, String reason}) =>
-  new _SpreadArgsHelper(callback, 0, -1, id, reason, isDone: isDone).func;
+        new _SpreadArgsHelper(callback, 0, -1, id, reason, isDone: isDone).func;
 
 /// Creates a new named group of tests.
 ///
@@ -498,14 +373,22 @@ void _completeTests() {
 
   for (TestCase t in testCases) {
     switch (t.result) {
-      case PASS:  passed++; break;
-      case FAIL:  failed++; break;
-      case ERROR: errors++; break;
+      case PASS:
+        passed++;
+        break;
+      case FAIL:
+        failed++;
+        break;
+      case ERROR:
+        errors++;
+        break;
     }
   }
-  _config.onSummary(passed, failed, errors, testCases,
-      _environment.uncaughtErrorMessage);
-  _config.onDone(passed > 0 && failed == 0 && errors == 0 &&
+  _config.onSummary(
+      passed, failed, errors, testCases, _environment.uncaughtErrorMessage);
+  _config.onDone(passed > 0 &&
+      failed == 0 &&
+      errors == 0 &&
       _environment.uncaughtErrorMessage == null);
   _environment.initialized = false;
   _environment.currentTestCaseIndex = -1;

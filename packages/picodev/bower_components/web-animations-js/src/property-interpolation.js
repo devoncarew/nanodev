@@ -59,4 +59,3 @@
   scope.propertyInterpolation = propertyInterpolation;
 
 })(webAnimationsMinifill, webAnimationsTesting);
-
