@@ -46,7 +46,21 @@ class EditorArea extends DElement {
     });
 
     Map options = {
-      'mode':  'htmlmixed',
+      'continueComments': {
+        'continueLineComment': false
+      },
+      'autoCloseTags': true,
+      'autoCloseBrackets': true,
+      'matchBrackets': true,
+      'tabSize': 2,
+      'indentUnit': 2,
+      //'autofocus': true,
+      //'cursorHeight': 0.85,
+      'extraKeys': {
+        'Ctrl-Space': 'autocomplete',
+        'Cmd-/': 'toggleComment',
+        'Ctrl-/': 'toggleComment'
+      },
       'theme': 'elegant' // '3024-day', 'elegant', 'monokai'
     };
 

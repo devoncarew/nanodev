@@ -8,13 +8,12 @@
       :host {
         display: inline-block;
         height: 24px;
-        width: 140px;
+        max-width: 200px;
         vertical-align: middle;
         line-height: 24px;
         color: #999;
-        transition: 100ms;
+        transition: 150ms;
         cursor: pointer;
-        margin-right: 6px;
       }
 
       :host([active]) {
@@ -26,15 +25,16 @@
         border-bottom: 2px solid #6CA6CD;
       }
 
-      :host(:hover) .name {
-        color: #111;
+      :host(:hover) .name,
+      :host(:hover) #dirtyIndicator {
+        color: #000;
       }
 
       #dirtyIndicator {
         opacity: 0;
         font-size: 22px;
-        transition: 100ms;
-        margin-right: 3px;
+        transition: 150ms;
+        width: 10px;
       }
 
       :host([dirty]) #dirtyIndicator {
@@ -49,15 +49,18 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        transition: 150ms;
       }
 
       cde-close-button {
-        display: none;
-        transition: opacity 100ms;
+        opacity: 0;
+        transition: 150ms;
+        margin-left: 2px;
       }
 
+      /*:host([active]) cde-close-button,*/
       :host(:hover) cde-close-button {
-        display: inline-block;
+        opacity: 1;
       }
     </style>
 
