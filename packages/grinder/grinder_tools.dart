@@ -31,8 +31,18 @@ Directory get sdkDir => getSdkDir(grinderArgs());
  */
 Directory getSdkDir([List<String> cliArgs]) {
   // Look for --dart-sdk on the command line.
-  if (cliArgs != null && cliArgs.contains('--dart-sdk')) {
-    return new Directory(cliArgs[cliArgs.indexOf('--dart-sdk') + 1]);
+  if (cliArgs != null) {
+    int index = cliArgs.indexOf('--dart-sdk');
+
+    if (index != -1 && (index + 1 < cliArgs.length)) {
+      return new Directory(cliArgs[index + 1]);
+    }
+
+    for (String arg in cliArgs) {
+      if (arg.startsWith('--dart-sdk=')) {
+        return new Directory(arg.substring('--dart-sdk='.length));
+      }
+    }
   }
 
   // Look in env['DART_SDK']
@@ -179,17 +189,20 @@ void defaultClean(GrinderContext context) {
  * Utility tasks for executing pub commands.
  */
 class Pub {
+  static PubGlobal _global = new PubGlobal._();
+
   /**
    * Run `pub get` on the current project. If [force] is true, this will execute
    * even if the pubspec.lock file is up-to-date with respect to the
    * pubspec.yaml file.
    */
-  static void get(GrinderContext context, {bool force: false}) {
+  static void get(GrinderContext context,
+      {bool force: false, String workingDirectory}) {
     FileSet pubspec = new FileSet.fromFile(new File('pubspec.yaml'));
     FileSet publock = new FileSet.fromFile(new File('pubspec.lock'));
 
     if (force || !publock.upToDate(pubspec)) {
-      _run(context, 'get');
+      _run(context, _execName('get'), workingDirectory: workingDirectory);
     }
   }
 
@@ -198,12 +211,14 @@ class Pub {
    * even if the pubspec.lock file is up-to-date with respect to the
    * pubspec.yaml file.
    */
-  static Future getAsync(GrinderContext context, {bool force: false}) {
+  static Future getAsync(GrinderContext context,
+      {bool force: false, String workingDirectory}) {
     FileSet pubspec = new FileSet.fromFile(new File('pubspec.yaml'));
     FileSet publock = new FileSet.fromFile(new File('pubspec.lock'));
 
     if (force || !publock.upToDate(pubspec)) {
-      return runProcessAsync(context, 'pub', arguments: ['get']);
+      return runProcessAsync(context, _execName('pub'), arguments: ['get'],
+          workingDirectory: workingDirectory);
     } else {
       return new Future.value();
     }
@@ -212,13 +227,16 @@ class Pub {
   /**
    * Run `pub upgrade` on the current project.
    */
-  static void upgrade(GrinderContext context) => _run(context, 'upgrade');
+  static void upgrade(GrinderContext context, {String workingDirectory}) {
+    _run(context, 'upgrade', workingDirectory: workingDirectory);
+  }
 
   /**
    * Run `pub upgrade` on the current project.
    */
-  static Future upgradeAsync(GrinderContext context) {
-    return runProcessAsync(context, 'pub', arguments: ['upgrade']);
+  static Future upgradeAsync(GrinderContext context, {String workingDirectory}) {
+    return runProcessAsync(context, _execName('pub'), arguments: ['upgrade'],
+        workingDirectory: workingDirectory);
   }
 
   /**
@@ -227,13 +245,15 @@ class Pub {
    * The valid values for [mode] are `release` and `debug`.
    */
   static void build(GrinderContext context,
-      {String mode, List<String> directories, String workingDirectory}) {
+      {String mode, List<String> directories, String workingDirectory,
+       String outputDirectory}) {
     List args = ['build'];
     if (mode != null) args.add('--mode=${mode}');
+    if (outputDirectory != null) args.add('--output=${outputDirectory}');
     if (directories != null && directories.isNotEmpty) args.addAll(directories);
 
-    runProcess(context, 'pub', arguments: args,
-      workingDirectory: workingDirectory);
+    runProcess(context, _execName('pub'), arguments: args,
+        workingDirectory: workingDirectory);
   }
 
   /**
@@ -242,19 +262,41 @@ class Pub {
    * The valid values for [mode] are `release` and `debug`.
    */
   static Future buildAsync(GrinderContext context,
-      {String mode, List<String> directories, String workingDirectory}) {
+      {String mode, List<String> directories, String workingDirectory,
+       String outputDirectory}) {
     List args = ['build'];
     if (mode != null) args.add('--mode=${mode}');
+    if (outputDirectory != null) args.add('--output=${outputDirectory}');
     if (directories != null && directories.isNotEmpty) args.addAll(directories);
 
-    return runProcessAsync(context, 'pub', arguments: args,
-      workingDirectory: workingDirectory);
+    return runProcessAsync(context, _execName('pub'), arguments: args,
+        workingDirectory: workingDirectory);
   }
 
   static void version(GrinderContext context) => _run(context, '--version');
 
-  static void _run(GrinderContext context, String command) {
-    runProcess(context, 'pub', arguments: [command]);
+  PubGlobal get global => _global;
+
+  static void _run(GrinderContext context, String command,
+      {String workingDirectory}) {
+    runProcess(context, _execName('pub'), arguments: [command],
+        workingDirectory: workingDirectory);
+  }
+}
+
+class PubGlobal {
+  PubGlobal._();
+
+  void activate(GrinderContext context, String package) {
+    runProcess(context, _execName('pub'), arguments: ['activate', package]);
+  }
+
+  void run(GrinderContext context, String package,
+      {List<String> arguments, String workingDirectory}) {
+    List args = ['run', package];
+    if (arguments != null) args.addAll(arguments);
+    runProcess(context, _execName('pub'), arguments: args,
+        workingDirectory: workingDirectory);
   }
 }
 
@@ -267,10 +309,10 @@ class Dart2js {
    */
   static void compile(GrinderContext context, File sourceFile,
       {Directory outDir, bool minify: false, bool csp: false}) {
-    // TODO: Check for the out.deps file, use it to know when to compile.
-
     if (outDir == null) outDir = sourceFile.parent;
     File outFile = joinFile(outDir, ["${fileName(sourceFile)}.js"]);
+
+    if (!outDir.existsSync()) outDir.createSync(recursive: true);
 
     List args = [];
     if (minify) args.add('--minify');
@@ -278,7 +320,7 @@ class Dart2js {
     args.add('-o${outFile.path}');
     args.add(sourceFile.path);
 
-    runProcess(context, 'dart2js', arguments: args);
+    runProcess(context, _execName('dart2js'), arguments: args);
   }
 
   /**
@@ -286,9 +328,10 @@ class Dart2js {
    */
   static Future compileAsync(GrinderContext context, File sourceFile,
       {Directory outDir, bool minify: false, bool csp: false}) {
-    // TODO: Check for the out.deps file, use it to know when to compile.
     if (outDir == null) outDir = sourceFile.parent;
     File outFile = joinFile(outDir, ["${fileName(sourceFile)}.js"]);
+
+    if (!outDir.existsSync()) outDir.createSync(recursive: true);
 
     List args = [];
     if (minify) args.add('--minify');
@@ -296,13 +339,13 @@ class Dart2js {
     args.add('-o${outFile.path}');
     args.add(sourceFile.path);
 
-    return runProcessAsync(context, 'dart2js', arguments: args);
+    return runProcessAsync(context, _execName('dart2js'), arguments: args);
   }
 
   static void version(GrinderContext context) => _run(context, '--version');
 
   static void _run(GrinderContext context, String command) {
-    runProcess(context, 'dart2js', arguments: [command]);
+    runProcess(context, _execName('dart2js'), arguments: [command]);
   }
 }
 
@@ -335,11 +378,11 @@ class Analyzer {
     if (fatalWarnings) args.add('--fatal-warnings');
     args.addAll(paths);
 
-    runProcess(context, 'dartanalyzer', arguments: args);
+    runProcess(context, _execName('dartanalyzer'), arguments: args);
   }
 
   static void version(GrinderContext context) =>
-      runProcess(context, 'dartanalyzer', arguments: ['--version']);
+      runProcess(context, _execName('dartanalyzer'), arguments: ['--version']);
 }
 
 /**
@@ -362,6 +405,8 @@ class Tests {
     }
   }
 
+  // TODO: specify dartium in web/, or chrome in build/web
+
 //  /**
 //   * TODO: doc
 //   */
@@ -371,17 +416,16 @@ class Tests {
 //  }
 }
 
-class ChromeBrowser {
+class Chrome {
   final String browserPath;
   Directory _tempDir;
 
-  ChromeBrowser(this.browserPath) {
+  Chrome(this.browserPath) {
     _tempDir = Directory.systemTemp.createTempSync('userDataDir-');
   }
 
-  ChromeBrowser.createDartium() : this(_dartiumPath());
-  ChromeBrowser.createChromeStable() : this(_chromeStablePath());
-  ChromeBrowser.createChromeDev() : this(_chromeDevPath());
+  Chrome.createChromeStable() : this(_chromeStablePath());
+  Chrome.createChromeDev() : this(_chromeDevPath());
 
   bool get exists => new File(browserPath).existsSync();
 
@@ -414,15 +458,13 @@ class ChromeBrowser {
 }
 
 /**
- * A utility class for accessing Dartium. This is a the same as calling
- * [ChromeBrowser.createDartium].
+ * A wrapper around the Dartium browser.
  */
-class Dartium extends ChromeBrowser {
-  Dartium() : super.createDartium();
+class Dartium extends Chrome {
+  Dartium() : super(_dartiumPath());
 }
 
-// TODO: Have a utility method to install content shell.
-class ContentShell extends ChromeBrowser {
+class ContentShell extends Chrome {
   static String _contentShellPath() {
     final Map m = {
       "linux": "content_shell/content_shell",

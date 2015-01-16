@@ -25,6 +25,10 @@
       border-bottom: 1px solid #f7f7f7;
     }
 
+    .header .title {
+      overflow-x: hidden;
+    }
+
     .footer {
       line-height: 14px;
       margin-top: 0.5em;
@@ -96,7 +100,7 @@
   </style>
 
   <cde-toolbar class="header">
-    <div flex>{{summary}}</div>
+    <div class="title" flex>{{summary}}</div>
     <cde-icon-button icon="editor:format-indent-increase"></cde-icon-button>
   </cde-toolbar>
 
