@@ -1,7 +1,7 @@
 
 import 'dart:html';
 
-import 'package:picodev/picodev.dart';
+import 'package:nanodev/nanodev.dart';
 
 void main() {
   // TODO: We need a more rigorous way to determine when polymer has been
@@ -16,6 +16,6 @@ void main() {
 }
 
 void _init() {
-  PicoDev picodev = new PicoDev();
-  picodev.start();
+  NanoDev nanodev = new NanoDev();
+  nanodev.start();
 }

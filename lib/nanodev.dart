@@ -1,5 +1,5 @@
 
-library picodev;
+library nanodev;
 
 import 'dart:async';
 import 'dart:html' hide File;
@@ -13,7 +13,7 @@ import 'keys.dart';
 import 'search.dart';
 import 'settings.dart';
 
-PicoDev app;
+NanoDev app;
 
 FilesView filesView;
 EditorArea editorArea;
@@ -21,8 +21,8 @@ Keys keys;
 Settings settings;
 Search search;
 
-class PicoDev implements IDE {
-  PicoDev() {
+class NanoDev implements IDE {
+  NanoDev() {
     app = this;
     ide = this;
     keys = new Keys(commandManager);
@@ -102,9 +102,9 @@ class PicoDev implements IDE {
     filesView.add(item);
 
     if (r.name == 'pubspec.yaml') {
-      item.meta = 'picodev';
+      item.meta = 'nanodev';
     } else if (r.name == 'bower.json') {
-      item.meta = 'picodev';
+      item.meta = 'nanodev';
     }
 
     if (r is Container) {
@@ -121,14 +121,14 @@ class PicoDev implements IDE {
 }
 
 void createWorkspace() {
-  Project project = new Project('picodev', workspace);
+  Project project = new Project('nanodev', workspace);
 
   Folder lib = new Folder('lib', project);
   new File('commands.dart', lib);
   new File('editors.dart', lib);
   new File('files.dart', lib);
   new File('outline.dart', lib);
-  new File('picodev.dart', lib);
+  new File('nanodev.dart', lib);
 
   Folder web = new Folder('web', project);
   new File('main.dart', web);
@@ -156,7 +156,7 @@ void _populate(Resource resource) {
     HttpRequest.getString(uri.toString()).then((content) {
       f.contents = content;
     }).catchError((e) {
-      uri = Uri.base.resolve(path.substring('picodev/'.length));
+      uri = Uri.base.resolve(path.substring('nanodev/'.length));
       return HttpRequest.getString(uri.toString()).then((content) {
         f.contents = content;
       }).catchError((e) {
