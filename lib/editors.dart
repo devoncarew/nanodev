@@ -49,7 +49,8 @@ class EditorArea extends DElement {
       'continueComments': {
         'continueLineComment': false
       },
-      'autoCloseTags': true,
+      // Removing this - with this enabled you can't type a forward slash.
+      //'autoCloseTags': true,
       'autoCloseBrackets': true,
       'matchBrackets': true,
       'tabSize': 2,

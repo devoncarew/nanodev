@@ -55,6 +55,10 @@
       max-width: 300px;
       white-space: nowrap;
     }
+
+    .stackArea {
+      min-width: 200px;
+    }
   </style>
 </head>
 
@@ -83,7 +87,7 @@
   <div flex horizontal layout id="mainLayout">
     <files-view></files-view>
     <cde-splitter direction="left"></cde-splitter>
-    <div flex layout vertical>
+    <div flex layout vertical class="stackArea">
       <editor-area flex></editor-area>
       <cde-splitter direction="down"></cde-splitter>
       <cde-view-stack maintitle="Title"></cde-view-stack>
