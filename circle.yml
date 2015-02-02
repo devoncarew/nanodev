@@ -1,0 +1,9 @@
+dependencies:
+  override:
+    - # apt-get dart
+    - # adjust path
+    - pub get
+
+test:
+  override:
+    - tools/circleci.sh
