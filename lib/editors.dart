@@ -124,8 +124,8 @@ class EditorArea extends DElement {
 
   Stream<File> get onActiveFile => _activeFileController.stream;
 
-  Iterable<TabItem> get _tabs =>
-      tabBar.element.children.map((e) => new TabItem.from(e));
+//  Iterable<TabItem> get _tabs =>
+//      tabBar.element.children.map((e) => new TabItem.from(e));
 
   Editor _editorFor(String path) {
     return editors.firstWhere((e) => e.file.path == path, orElse: () => null);
