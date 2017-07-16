@@ -86,7 +86,7 @@ class CommandManager {
         (command) => command.id == id, orElse: () => null);
   }
 
-  Future executeCommand(Context context, String id, [List args = const []]) {
+  Future executeCommand(Context context, String id, [List<String> args = const []]) {
     Command command = getCommand(id);
 
     if (command != null) {

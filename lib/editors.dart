@@ -15,7 +15,7 @@ import 'outline.dart';
 Outline outline;
 
 class EditorArea extends DElement {
-  StreamController _activeFileController = new StreamController.broadcast();
+  StreamController<File> _activeFileController = new StreamController.broadcast();
 
   TabBar tabBar;
   CodeMirror codeMirror;

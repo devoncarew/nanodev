@@ -155,7 +155,7 @@ class SearchResults {
       "empty" : categories.map((c) => c.toString()).join(', ');
 }
 
-class SearchCategory implements Comparable {
+class SearchCategory implements Comparable<SearchCategory> {
   final String name;
   List<SearchResult> results = [];
 
@@ -178,7 +178,7 @@ class SearchCategory implements Comparable {
   }
 }
 
-abstract class SearchResult implements Comparable {
+abstract class SearchResult implements Comparable<SearchResult> {
   final num quality;
 
   SearchResult(this.quality);

@@ -1,4 +1,3 @@
-
 library nanodev;
 
 import 'dart:async';
@@ -76,7 +75,8 @@ class NanoDev implements IDE {
     _addEditorCommand('editor-find', (editor) => editor.toggleFind());
     _addEditorCommand('editor-goto-line', (editor) => editor.toggleGotoLine());
 
-    _addCommand('open-settings', () => editorArea.openFile(settings.settingsFile));
+    _addCommand(
+        'open-settings', () => editorArea.openFile(settings.settingsFile));
   }
 
   void handleNewProject() {
@@ -156,7 +156,13 @@ void _populate(Resource resource) {
     HttpRequest.getString(uri.toString()).then((content) {
       f.contents = content;
     }).catchError((e) {
-      uri = Uri.base.resolve(path.substring('nanodev/'.length));
+      if (path.contains('/lib/')) {
+        uri = Uri.base
+            .resolve('packages$path'.replaceAll('nanodev/lib', 'nanodev'));
+      } else {
+        uri = Uri.base.resolve(path.replaceAll('/nanodev/web/', '/'));
+      }
+      print(uri);
       return HttpRequest.getString(uri.toString()).then((content) {
         f.contents = content;
       }).catchError((e) {
@@ -170,7 +176,7 @@ void _populate(Resource resource) {
 }
 
 class FilesView extends DElement {
-  StreamController _activeFileController = new StreamController.broadcast();
+  StreamController<File> _activeFileController = new StreamController.broadcast();
 
   FilesView(Element element) : super.from(element) {
     element.onClick.listen((event) {

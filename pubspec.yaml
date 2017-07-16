@@ -6,15 +6,19 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 
 dependencies:
-  browser: any
-  codemirror: '>=0.1.4 <0.2.0'
+  browser: ^0.10.0
+  codemirror: any
   mime: any
   path: any
 
 dev_dependencies:
-  dart_to_js_script_rewriter: any
+  dart_to_js_script_rewriter: ^1.0.1
   grinder: any
   unittest: any
 
 transformers:
 - dart_to_js_script_rewriter
+
+web:
+  compiler:
+    debug: dartdevc

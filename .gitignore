@@ -1,9 +1,11 @@
+.buildlog
+.chromeDataDir/
+.packages
+.pub/
+.settings/
 *.dart.js
 *.js.deps
 *.js.map
-.buildlog
-.pub/
-.settings/
 build/
 lib/bower_components/
 packages
